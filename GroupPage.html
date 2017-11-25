@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Group Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!--$host = "localhost";-->
+    <!--$user = "dbuser";-->
+    <!--$password = "goodbyeWorld";-->
+    <!--$database = "applicationdb";-->
+    <!--$table = "applicants";-->
+    <!--$db = connectToDB($host, $user, $password, $database);-->
+
+    <!--$sqlQuery = sprintf("select * from %s where email = \"%s\"", $table, $_POST["email"]);-->
+    <!--$result = mysqli_query($db, $sqlQuery);-->
+    <!--if ($result) {-->
+        <!--$numberOfRows = mysqli_num_rows($result);-->
+    <!--if ($numberOfRows == 0) {-->
+        <!--$body = "<h2>No entry exists in the database for the specified email and password</h2>";-->
+    <!--} else {-->
+        <!--$body = "";-->
+        <!--while ($recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC)) {-->
+            <!--$name = $recordArray['name'];-->
+            <!--$email = $recordArray['email'];-->
+            <!--$gpa = $recordArray['gpa'];-->
+            <!--$year = $recordArray['year'];-->
+            <!--$gender = $recordArray['gender'];-->
+            <!--$password = $recordArray['password'];-->
+            <!--if (password_verify($_POST["password"], $password))-->
+                <!--$body .= "Name: $name<br />Email: $email<br />Gpa: $gpa<br />-->
+                    <!--Year: $year<br />Gender: $gender<br />";-->
+            <!--else $body .= "<h2>No entry exists in the database for the specified email and password</h2>";-->
+        <!--}-->
+    <!--}-->
+    <!--mysqli_free_result($result);-->
+    <!--}-->
+    <!--else $body = "Retrieving records failed.".mysqli_error($db);-->
+    <!--mysqli_close($db);-->
+    <div class="container-fluid">
+        <h1>Group 1234</h1>
+        <br/><br/>
+        <div style="border-style: solid;padding: 10px;width:70%">
+            <h3>Steven Liao &#9733;&#9733;</h3><br/>
+            <h4>Goal: Sleep</h4>
+            <div class="progress" style="width:80%">
+                <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
+            </div>
+            <br/>
+            Alex Li <small>11/15/17 4:00pm</small><br/>
+            <small>&emsp;good job!</small><br/>
+            <input type="text" id="message" placeholder="enter message"/>
+            <input type="button" id="sendMessage" value = "Send"/>
+        </div>
+        <br/>
+        <div style="border-style: solid;padding: 10px;width:70%">
+            <h3>Alex Li</h3><br/>
+            <h4>Goal: Sleep</h4>
+            <div class="progress" style="width:80%">
+                <div class="progress-bar bg-danger progress-bar-striped" style="width:20%">20%</div>
+            </div>
+            <br/>
+            <input type="text" id="message" placeholder="enter message"/>
+            <input type="button" id="sendMessage" value = "Send"/>
+        </div>
+    </div>
+    <!--$user1 = ["Steven","Liao","steamfsouth@gmail.com","1","11152017"]-->
+    <!--$name = $user1[0] + " " + $user1[1];-->
+    <!--$email = $user1[2];-->
+    <!--if ($user1[3] == "1")-->
+        <!--$goal = "Sleep";-->
+
+
+
+</body>
+</html>

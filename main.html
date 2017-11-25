@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Accountability</h1>
+<p>
+    Welcome to Accountability - the platform where you and your friends can support each other in meeting your goals, and hold each other accountable for bettering yourselves!
+</p>
+<strong>How it works: </strong>
+<ul>
+    <li>One person should create a group and share the Group ID with your friends</li>
+    <li>When you log in to your group for the first time, create a personal account, where you can set your goals and what you want to improve on</li>
+    <li>Once you are all set, you will see your as well as your group members' progress in your home page</li>
+    <li>Send your friends messages to congratulate them if they are doing well or motivate them if they are slacking</li>
+    <li>If you are on track with your goals, you will earn badges!</li>
+    <li>If you need more support, Accountability will send you personalized resources & your friends will receive a notification</li>
+</ul>
+<h3>Already have a group?</h3>
+<form action="login.php" method="POST">
+    <input type="text" name="groupId" placeholder="Enter Group ID" required/><br><br>
+    <input type="submit" name="enter" value="Enter"/>
+</form>
+<h3>Or</h3>
+<form action="createGroup.php" method="POST">
+    <input type="submit" name="createGroup" value="Create Group"/>
+</form>
+
+</body>
+</html>

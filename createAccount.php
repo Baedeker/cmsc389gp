@@ -3,31 +3,8 @@
     require_once 'support.php';
     session_start();
 
-function userExists($email){
-    $query = "SELECT * FROM users WHERE email = '$email'";
-    $result = connectAndQuery($query);
-    if ($result->num_rows > 0) {
-        return true;
-    }else{
-        return false;
-    }
-}
-if(!isset($_POST['username'])) {
-    if (isset($_SESSION['username'])) {
-        $email = $_SESSION['username'];
-        $password = $_SESSION["password"];
-        $groupId = $_SESSION["groupId"];
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        if (!userExists($email)) {
-            $query = "INSERT INTO users (email, password, groupid) values ('$email', '$hashedPassword', '$groupId');";
-            connectAndQuery($query);
-        } else {
-            echo "<script type='text/javascript'>alert(\"Username already exists\");window.location=\"createGroup.php\";</script>";
-        }
-    }
-}else{
-    $email = $_SESSION['username'];
+if(!isset($_POST['createGroup'])) {
+    $email = $_SESSION['email'];
 }
 
     $body = <<<BODY
@@ -46,8 +23,5 @@ if(!isset($_POST['username'])) {
         </form>    
 BODY;
     generatePage($body, 'Create Account');
-
-
-
 
 ?>

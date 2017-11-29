@@ -37,10 +37,12 @@ BODY;
                             <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
                         </div>
                         <br/>
-                        Alex Li <small>11/15/17 4:00pm</small><br/>
-                        <small>&emsp;good job!</small><br/>
-                        <input type="text" id="message" placeholder="enter message"/>
-                        <input type="button" id="sendMessage" value = "Send"/>
+                        <div style = "max-height:100px;overflow:auto;">
+                            <text id = "personalmessage$firstname$lastname"></text><br/>
+                        </div>
+                        <input type="text" id="message$firstname$lastname" placeholder="enter message"/>
+                        <input type="button" id="sendPersonalMessage"
+                            value = "Send" onclick="clickSendPersonal('$firstname$lastname','$currentuser');"/>
                     </div>
                     <br/>
 BODY;
@@ -56,8 +58,9 @@ BODY;
                     <div style = "max-height:300px;overflow:auto;">
                         <text id = "groupmessage"></text><br/>
                     </div>
-                    <input type="text" id="newmessage" placeholder="enter message"/>
-                    <input type="button" id="sendGroupMessage" value = "Send" onclick="clickSendGroup('$currentuser');"/>
+                    <input type="text" id="message" placeholder="enter message"/>
+                    <input type="button" id="sendGroupMessage"
+                        value = "Send" onclick="clickSendGroup('$currentuser');"/>
                     </div>
                 </div>
             </div>
@@ -112,15 +115,34 @@ BODY;
 ?>
 <script>
     function clickSendGroup(currentuser) {
-        var currentdate = new Date();
-        var datetime = (currentdate.getMonth()+1) + "/"
-            +  currentdate.getDate() + "/"
-            + currentdate.getFullYear() + " " +
-            + currentdate.getHours() + ":"
-            + currentdate.getMinutes();
+        let message = document.getElementById("message").value;
+        if (message != "") {
+            let currentdate = new Date();
+            let datetime = (currentdate.getMonth()+1) + "/"
+                +  currentdate.getDate() + "/"
+                + currentdate.getFullYear() + " " +
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
 
-        let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
-            "<small>&emsp;"+document.getElementById("newmessage").value+"</small><br/>";
-        document.getElementById("groupmessage").innerHTML += newmessage;
+            let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
+                "<small>&emsp;"+message+"</small><br/>";
+            document.getElementById("groupmessage").innerHTML += newmessage;
+        }
+    }
+
+    function clickSendPersonal(name,currentuser) {
+        let message = document.getElementById("message"+name).value;
+        if (message != "") {
+            let currentdate = new Date();
+            let datetime = (currentdate.getMonth()+1) + "/"
+                +  currentdate.getDate() + "/"
+                + currentdate.getFullYear() + " " +
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
+
+            let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
+                "<small>&emsp;"+message+"</small><br/>";
+            document.getElementById("personalmessage"+name).innerHTML += newmessage;
+        }
     }
 </script>

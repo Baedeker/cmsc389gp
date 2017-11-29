@@ -2,6 +2,7 @@
     require_once 'support.php';
 
     $groupid = 123;
+    $currentuser = "Steven Liao";
 
     $top = <<<BODY
         <div class="container-fluid">
@@ -52,10 +53,11 @@ BODY;
         <div class="col-sm-4">
                 <div style="border-style: solid;padding: 10px">
                     <h2 align="center"> Group Chat</h2>
-                    Alex Li <small>11/15/17 4:00pm</small><br/>
-                    <small>&emsp;good job!</small><br/>
-                    <input type="text" id="groupmessage" placeholder="enter message"/>
-                    <input type="button" id="sendGroupMessage" value = "Send"/>
+                    <div style = "max-height:300px;overflow:auto;">
+                        <text id = "groupmessage"></text><br/>
+                    </div>
+                    <input type="text" id="newmessage" placeholder="enter message"/>
+                    <input type="button" id="sendGroupMessage" value = "Send" onclick="clickSendGroup('$currentuser');"/>
                     </div>
                 </div>
             </div>
@@ -107,3 +109,18 @@ BODY;
 //BODY;
     $body = $top.$left.$right;
     generatePage($body, 'Group Page');
+?>
+<script>
+    function clickSendGroup(currentuser) {
+        var currentdate = new Date();
+        var datetime = (currentdate.getMonth()+1) + "/"
+            +  currentdate.getDate() + "/"
+            + currentdate.getFullYear() + " " +
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes();
+
+        let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
+            "<small>&emsp;"+document.getElementById("newmessage").value+"</small><br/>";
+        document.getElementById("groupmessage").innerHTML += newmessage;
+    }
+</script>

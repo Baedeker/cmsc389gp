@@ -1,7 +1,7 @@
 <?php
     require_once 'support.php';
 
-    $currentuseremail = "angalexli@gmail.com";
+    $currentuseremail = "jfan10";
     $currentuser = "Alex Li";
     $recentdate;
     $recentsleep;
@@ -12,7 +12,10 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Sleep Duration</th>
+                        <th>Time Getting In Bed</th>
+                        <th>Time Falling Asleep</th>
+                        <th>Time Waking Up</th>
+                        <th>Actual Sleep</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,19 +23,28 @@ BODY;
 
     $right = "";
 
-    $query = "SELECT sleepduration, date ".
+    $topandleft = generateTable($currentuser, $left);
+
+    /*$query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
         "FROM sleeplogs ".
-        "WHERE `email` = 'angalexli'";
+        "WHERE `email` = 'jfan10'";
 
     $result = connectAndQuery($query);
     if ($result) {
         if (mysqli_num_rows($result)) {
             while ($records = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                 $recentdate = convertDate($records['date']);
-                $recentsleep = $records['sleepduration'];
+                $recentsleep = $records['actualsleep'];
+                $timewakeup = $records['timewakeup'];
+                $timefallasleep = $records['timefallasleep'];
+                $timeinbed = $records['timeinbed'];
+
                 $left .= <<<BODY
                     <tr>
                         <td>$recentdate</td>
+                        <td>$timeinbed</td>
+                        <td>$timefallasleep</td>
+                        <td>$timewakeup</td>
                         <td>$recentsleep</td>
                     </tr>
 BODY;
@@ -44,28 +56,23 @@ BODY;
                 The last time you updated was: $recentdate<br><br>
             </div>
 BODY;
-            /*
-             * At this point the table of the logs that have been made is constructed.
-             * Another thing that I was planning to do was to add in a progress bar for the
-             * sleep duration, and convert the date display. That's not too bad.
-             * I am concerned a bit on the form display, as I am not sure where to place it.
-             */
         } else {
             $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
         }
-    }
+    }*/
 
-    /*
-     * One thing we might want to consider is the fact of calculating
-     * the total time slept for the user instead of having them do it
-     * themselves.
-     */
     $right = <<<BODY
     <div class="container-fluid">
         <h4>Log more entries!</h4>
         <form action= "{$_SERVER['PHP_SELF']}" method="post">
-            Today's Date (MMDDYY): <input type="text" name="date" id="d" maxlength="8"><br>
-            Time Slept: <input type="number" name="sleeptime" id="st"><br><br>
+            Today's Date (MMDDYY): <input type="text" name="date" id="d" maxlength="6" minlength="6"><br>
+            Time In Bed: <input type="number" name="timeinbedhours" id="tbh" max="24" style="width: 40px">
+                :&nbsp;<input type="number" name="timeinbedminutes" id="tbm" max="60" style="width: 40px"><br>
+            Time Falling Asleep: <input type="number" name="timefallasleephours" id="tfh" max="24" style="width: 40px">
+                :&nbsp;<input type="number" name="timefallasleepminutes" id="tfm" max="60" style="width: 40px"><br>
+            Time Waking Up: <input type="number" name="timewakeuphours" id="twh" max="24" style="width: 40px">
+                :&nbsp;<input type="number" name="timewakeupminutes" id="twm" max="60" style="width: 40px"><br>
+            Actual Sleep: <input type="float" name="actualsleep" id="st" step="0.01"><br><br>
             <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="reset" name="reset">
         </form>
@@ -78,13 +85,37 @@ BODY;
          * that they can choose the option of submitting another form.
          */
         $date = $_POST['date'];
-        $sleep = $_POST['sleeptime'];
+        $actualsleep = $_POST['actualsleep'];
+        $timefallasleephours = $_POST['timefallasleephours'];
+        $timefallasleepminutes = $_POST['timefallasleepminutes'];
+        $timewakeuphours = $_POST['timewakeuphours'];
+        $timewakeupminutes = $_POST['timewakeupminutes'];
+        $timeinbedhours = $_POST['timeinbedhours'];
+        $timeinbedminutes = $_POST['timeinbedminutes'];
 
+        $timefa = $timefallasleephours.":".$timefallasleepminutes;
+        $timewu = $timewakeuphours.":".$timewakeupminutes;
+        $timeib = $timeinbedhours.":".$timeinbedminutes;
 
+        //$sql = "INSERT INTO `sleeplogs` (`id`, `email`, `date`, `timeinbed`, `timefallasleep`, `timewakeup`, `actualsleep`) ".
+            //"VALUES (NULL, \'$currentuseremail\', \'$date\', \'$timeib\', \'$timefa\', \'$timewu\', \'$actualsleep\')";
+
+        $sql = sprintf("INSERT INTO sleeplogs (id, email, date, timeinbed, timefallasleep, timewakeup, actualsleep) values ('%s', '%s', '%s', '%s', '%s', '%s', '%d')",
+            NULL, $currentuseremail, $date, $timeib, $timefa, $timewu, $actualsleep);
+
+        $result = connectAndQuery($sql);
+        if ($result) {
+            $right .= "Successfully added!<br>";
+            $right .= "Please refresh the page to see any new updates that you've submitted.<br><br>";
+        } else {
+            $right .= "Submission failed.<br><br>";
+        }
 
         /*
          * Need to connect to the DB to submit the information.
          */
+
+        $topandleft = generateTable($currentuser, $left);
 
         unset($_POST['submit']);
     }
@@ -95,7 +126,7 @@ BODY;
      * and the other can be dedicated to resources.
      */
 
-    $body = $top.$left.$right;
+    $body = $topandleft.$right;
     generatePage($body, 'Profile Page');
 
     function convertDate($date) {
@@ -147,6 +178,47 @@ BODY;
         $converted_date .= $year;
         return $converted_date;
     }
+
+    function generateTable($currentuser, $left) {
+        $query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
+            "FROM sleeplogs ".
+            "WHERE `email` = 'jfan10'";
+        $recentdate;
+
+        $result = connectAndQuery($query);
+        if ($result) {
+            if (mysqli_num_rows($result)) {
+                while ($records = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                    $recentdate = convertDate($records['date']);
+                    $recentsleep = $records['actualsleep'];
+                    $timewakeup = $records['timewakeup'];
+                    $timefallasleep = $records['timefallasleep'];
+                    $timeinbed = $records['timeinbed'];
+
+                    $left .= <<<BODY
+                    <tr>
+                        <td>$recentdate</td>
+                        <td>$timeinbed</td>
+                        <td>$timefallasleep</td>
+                        <td>$timewakeup</td>
+                        <td>$recentsleep</td>
+                    </tr>
+BODY;
+                }
+                $left .= "</tbody></table></div><br>";
+                $top = <<<BODY
+                <div class="container-fluid">
+                <h1>Hey there, $currentuser!</h1><br>
+                The last time you updated was: $recentdate<br><br>
+            </div>
+BODY;
+            } else {
+                $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
+            }
+        }
+        $body = $top.$left;
+        return $body;
+    }
 ?>
 <script>
     window.onsubmit = validateData;
@@ -160,11 +232,11 @@ BODY;
             message += "Invalid sleep time submitted.\n";
         }
 
-        if (date.length != 8) {
+        if (date.length !== 6) {
             message += "Invalid date submitted.\n"
         } else {
             var month = date.substr(0,2);
-            var day = date.substr(2,4);
+            var day = date.substr(2,2);
             var year = date.substr(4);
 
             if (isNaN(month) || isNaN(day) || isNaN(year)) {

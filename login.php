@@ -15,13 +15,19 @@ function userExists($email){
 }
 
 $body = <<<BODY
-    <h1>Accountability</h1>
-    <h2>Welcome!</h2>
+    <h1>Welcome!</h1>
+    <h3>Log in</h3>
     <form action="" method="post">
     <strong>Email </strong><input type="email" name="email" required/><br><br>
     <strong>Password </strong><input type="password" name="password" required/><br><br>
     <input type="submit" name="login" value="Log In"/> 
-    <strong>Or</strong>
+</form>
+    <h3>Or Create Account</h3>
+    <form action="createAccount.php" method="post">
+    <strong>First Name </strong><input type="text" name="firstname" required/><br><br>
+    <strong>Last Name </strong><input type="text" name="lastname" required/><br><br>
+     <strong>Email </strong><input type="email" name="email" required/><br><br>
+    <strong>Password </strong><input type="password" name="password" required/><br><br>
     <input type="submit" name="createAccount" value="Create Account"/>
     </form>
 BODY;

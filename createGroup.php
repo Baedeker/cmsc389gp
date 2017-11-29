@@ -1,8 +1,6 @@
 <?php
     require_once 'support.php';
 
-session_start();
-
     class createGroup {
         static $staticUid = 0;
 
@@ -41,7 +39,6 @@ if(isset($_POST["create"])) {
         $password = $_POST["password"];
 	    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 	    if(!createGroup::userExists($email)) {
-	        $_SESSION['email'] = $email;
             $query = "INSERT INTO users (email, password, groupid) values ('$email', '$hashedPassword', '$groupId');";
             connectAndQuery($query);
             $query = "INSERT INTO email_group (email, groupid) values ('$email', '$groupId');";
@@ -65,6 +62,8 @@ BODY;
     <h1>Accountability</h1>
     <form action="createGroup.php" method="POST">
     <h3>First, create a personal account:</h3>
+        <strong>First Name </strong><input type="text" name="firstname" required/><br><br>
+        <strong>Last Name </strong><input type="text" name="lastname" required/><br><br>
         <strong>Email </strong><input type="email" name="email" required/><br><br>
         <strong>Create Password </strong><input type="password" name="password" required/><br><br>
         <input type="submit" name="create" value="OK"/><br><br>

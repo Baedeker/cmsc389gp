@@ -3,6 +3,11 @@
 
     if(isset($_POST['setGoals'])){
         $email = $_POST['email'];
+        $within30 = generateRadioSelect("within30");
+        $middleOfNight = generateRadioSelect("middleOfNight");
+        $troubleAwake = generateRadioSelect("troubleAwake");
+        $overall = generateRadioSelect("overall");
+
         $body = <<<BODY
         <div class="container">
             <div class="row">
@@ -18,10 +23,13 @@
             </div>    
 
             <hr>
-
+            
             <h3><b>During the past month,</b></h3>
 
+            <fieldset>
+
             <form action="{$_SERVER['PHP_SELF']}" method="post">
+
                 <div class="form-group">
                     <label for="bedtime">When have you usually gone to bed?
                     <input type="time" style="width:50%" class="form-control" name="bedtime"/>
@@ -36,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="wakeUp">What time do you usually wake up in the morning?
-                        <input type="time" class="form-control" name="wakeUp" style="width:50%">
+                        <input type="time" class="form-control" name="wakeup" style="width:50%">
                     </label>
                 </div>
                 
@@ -51,71 +59,52 @@
                         <input type="text" class="form-control" name="timeInBed" style="width:50%">
                     </label>
                 </div>
+
+                
+                <p>Been unable to sleep in 30 minutes</p>
+
+                $within30
+
+                <p> wake up in the middle of the night?</p>
+
+                $middleOfNight
+
+                <p> have had trouble staying awake during your day to day life? </p>
+                
+                $troubleAwake
+
+                <p>how would you rate the overall quality of your sleep</p>
+
+                $overall
+
                 <input type="hidden" name="email" value='$email'/>
-                <button type="submit" class="btn btn-primary" name="continue">Continue</button>
-                </div>
-                </div>
+
+                <p>
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </div>
             </form>    
+            </fieldset>
         </div>
 BODY;
-    generatePage($body, 'Set Goals');
+    generatePage($body, 'Set Goals', 'form.js');
     }
-    
-    elseif(isset($_POST['continue'])){
+    elseif(isset($_POST['submit'])){
         $email = $_POST['email'];
         $bedtime = $_POST['bedtime'];
         $fallAsleep = $_POST['fallAsleep'];
-        $wakeup = $_POST['wakeUp'];
+        $wakeup = $_POST['wakeup'];
         $actualSleep = $_POST['actualSleep'];
         $timeInBed = $_POST['timeInBed'];
-        $query = "INSERT INTO SleepData (email, bedtime, fallAsleep, wakeup, actualSleep, timeInBed) 
-                    VALUES ('$email', '$bedtime', '$fallAsleep', '$wakeup', '$actualSleep', '$timeInBed');";
+        $within30 = $_POST['within30'];
+        $middleOfNight = $_POST['middleOfNight'];
+        $troubleAwake = $_POST['troubleAwake'];
+        $overall = $_POST['overall'];
 
+        $query = "INSERT INTO SleepData values ('$email','$bedtime', '$fallAsleep', '$wakeup', '$actualSleep', '$timeInBed','$within30','$middleOfNight','$troubleAwake','$overall');";
         connectAndQuery($query);
 
-        $body = <<<BODY
-        <div class="container">
-            <h2>Almost done, let's see if we can pinpoint what specifically could be improved
-                with your sleep</h2>
-
-            <form action="invite.php" method="post">
-                <h3><b>During the past month, how often have you</b></h3>
-
-                <div class="form-group">
-                    <label for="within30">
-                    been unable to get to sleep within 30 minutes?
-                        <input class="form-control" style="width:240px"type="range" min="0" max="3" step="1" name="within30">
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="wakeupMidNight">
-                    wake up in the middle of the night?
-                        <input class="form-control" style="width:240px" type="range" min="0" max="3" step="1" name="wakeupMidNight">
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="troubleAwake">
-                    have had trouble staying awake during your day to day life?
-                        <input class="form-control" style="width:240px" type="range" min="0" max="3" step="1" name="troubleAwake">
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="overall">
-                    how would you rate the overall quality of your sleep?
-                        <input class="form-control" style="width:240px" type="range" min="0" max="3" step="1" name="overall">
-                    </label>
-                </div>
-                
-                <input type="hidden" name="email" value="$email"/>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>    
-
-        </div>
-BODY;
-
-        generatePage($body, 'Set Goals');
+        $body = generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBed, $within30, $middleOfNight, $troubleAwake, $overall);
+        generatePage($body, 'Results');
     }
 ?>

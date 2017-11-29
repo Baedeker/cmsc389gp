@@ -1,14 +1,34 @@
 <?php
 
     require_once 'support.php';
+    session_start();
 
-    $email = $_POST['username'];
-    // $password = $_POST['password'];
-    // $groupID = $_POST['groupId'];
+function userExists($email){
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $result = connectAndQuery($query);
+    if ($result->num_rows > 0) {
+        return true;
+    }else{
+        return false;
+    }
+}
+if(!isset($_POST['username'])) {
+    if (isset($_SESSION['username'])) {
+        $email = $_SESSION['username'];
+        $password = $_SESSION["password"];
+        $groupId = $_SESSION["groupId"];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // // echo $groupID;
-    // $query = "INSERT INTO users (email, password, groupid) values ('$user', '$password', '$groupID');";
-    // connectAndQuery($query);
+        if (!userExists($email)) {
+            $query = "INSERT INTO users (email, password, groupid) values ('$email', '$hashedPassword', '$groupId');";
+            connectAndQuery($query);
+        } else {
+            echo "<script type='text/javascript'>alert(\"Username already exists\");window.location=\"createGroup.php\";</script>";
+        }
+    }
+}else{
+    $email = $_SESSION['username'];
+}
 
     $body = <<<BODY
         <h3>Choose the are that you and your friends would most like to improve</h3>

@@ -1,49 +1,86 @@
 <?php
 require_once 'support.php';
-session_start();
 
-echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">";
+echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">
+    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
+    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>
+    <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"main.css\">";
 
-function userExists($email){
+$groupId = $_POST['groupId'];
+function userExists($email) {
     $query = "SELECT * FROM users WHERE email = '$email'";
     $result = connectAndQuery($query);
     if ($result->num_rows > 0) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
-$body = <<<BODY
-    <h1>Welcome!</h1>
+function getGroupName($groupId)
+{
+    $query = "SELECT groupname FROM email_group WHERE groupid = '$groupId'";
+    $result = connectAndQuery($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $groupname = $row["groupname"];
+        return $groupname;
+    } else {
+        return null;
+    }
+}
+
+function getBody($groupId)
+{
+    $groupName = getGroupName($groupId);
+    $body = <<<BODY
+    <div class="container-fluid bg-3 text-center">
+    <h1>Welcome to group $groupName!</h1>
+    </div>
+    <div class="container-fluid bg-4 text-center">
     <h3>Log in</h3>
     <form action="" method="post">
     <strong>Email </strong><input type="email" name="email" required/><br><br>
     <strong>Password </strong><input type="password" name="password" required/><br><br>
     <input type="submit" name="login" value="Log In"/> 
 </form>
+</div>
+<div class="container-fluid bg-2 text-center">
     <h3>Or Create Account</h3>
-    <form action="createAccount.php" method="post">
-    <strong>First Name </strong><input type="text" name="firstname" required/><br><br>
-    <strong>Last Name </strong><input type="text" name="lastname" required/><br><br>
+    <form action="" method="post">
+    <strong>First Name </strong><input type="text" name="firstName" required/><br><br>
+    <strong>Last Name </strong><input type="text" name="lastName" required/><br><br>
      <strong>Email </strong><input type="email" name="email" required/><br><br>
     <strong>Password </strong><input type="password" name="password" required/><br><br>
+    <input type="hidden" name="groupId" value="$groupId"/>
     <input type="submit" name="createAccount" value="Create Account"/>
     </form>
+</div>
 BODY;
+    return $body;
+}
+
+    $groupId = $_POST['groupId'];
 
 if(isset($_POST["createAccount"])) {
     $email = $_POST['email'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $password = $_POST['password'];
+    $groupName = getGroupName($groupId);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     if (!userExists($email)) {
-        $query = "INSERT INTO users (email, password, groupid) values ('$email', '$hashedPassword', '$groupId');";
+
+        $query = "INSERT INTO users (email, password, groupid, firstname, lastname) values ('$email', '$hashedPassword', '$groupId', '$firstName', '$lastName');";
         connectAndQuery($query);
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["password"] = $_POST["password"];
-        $_SESSION["groupId"] = $groupId;
+        $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
+        connectAndQuery($query);
         header("Location: createAccount.php");
     } else {
         echo "<script type='text/javascript'>alert(\"Username already exists\");</script>";
-        echo $body;
+        echo getBody($groupId);
     }
 
 }else if(isset($_POST["login"])) {
@@ -66,12 +103,11 @@ if(isset($_POST["createAccount"])) {
         header("Location: home.php");
     }else{
         echo "<script type='text/javascript'>alert(\"Wrong username/password combination\")</script>";
-        echo $body;
+        echo getBody($groupId);
     }
 }else if(!isset($_POST['groupId'])){
     header('Location: main.html');
 }else {
-    $groupId = $_POST["groupId"];
 
     function groupIdExists($id){
         $query = "SELECT * FROM users WHERE groupid = '$id'";
@@ -83,8 +119,9 @@ if(isset($_POST["createAccount"])) {
         }
     }
     if(groupIdExists($groupId)) {
-        echo $body;
+        echo getBody($groupId);
     }else{
         echo "<script type='text/javascript'>alert(\"Invalid Group ID\");window.location=\"main.html\";</script>";
     }
+
 }

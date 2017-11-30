@@ -1,8 +1,16 @@
 <?php
     require_once 'support.php';
 
-    $groupid = 123;
-    $currentuser = "Steven Liao";
+    session_start();
+    $email = $_SESSION["email"];
+    $query = "SELECT firstname,lastname ".
+            "FROM users ".
+            "WHERE email='$email'";
+    $result = connectAndQuery($query);
+    $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $currentuser = $recordArray['firstname']." ".$recordArray['lastname'];
+
+    $groupid = $_SESSION["groupId"];
 
     $query = "SELECT groupname ".
         "FROM GROUPID_GROUPNAME ".

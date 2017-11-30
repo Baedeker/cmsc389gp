@@ -43,6 +43,7 @@ function getBody($groupId)
     <form action="" method="post">
     <strong>Email </strong><input type="email" name="email" required/><br><br>
     <strong>Password </strong><input type="password" name="password" required/><br><br>
+    <input type="hidden" name="groupId" value="$groupId"/>
     <input type="submit" name="login" value="Log In"/> 
 </form>
 </div>
@@ -73,7 +74,7 @@ if(isset($_POST["createAccount"])) {
 
     if (!userExists($email)) {
 
-        $query = "INSERT INTO users (email, password, groupid, firstname, lastname) values ('$email', '$hashedPassword', '$groupId', '$firstName', '$lastName');";
+        $query = "INSERT INTO users (email, password firstname, lastname) values ('$email', '$hashedPassword', '$firstName', '$lastName');";
         connectAndQuery($query);
         $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
         connectAndQuery($query);
@@ -100,7 +101,10 @@ if(isset($_POST["createAccount"])) {
 
     $hashed = getPassword($email);
     if($hashed != null && password_verify($password, $hashed)) {
-        header("Location: home.php");
+        session_start();
+        $_SESSION["groupId"] = $groupId;
+        $_SESSION["email"] = $email;
+        header("Location: GroupPage.php");
     }else{
         echo "<script type='text/javascript'>alert(\"Wrong username/password combination\")</script>";
         echo getBody($groupId);
@@ -110,7 +114,7 @@ if(isset($_POST["createAccount"])) {
 }else {
 
     function groupIdExists($id){
-        $query = "SELECT * FROM users WHERE groupid = '$id'";
+        $query = "SELECT * FROM EMAIL_GROUP WHERE groupid = '$id'";
         $result = connectAndQuery($query);
         if ($result->num_rows > 0) {
                 return true;

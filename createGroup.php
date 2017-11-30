@@ -1,8 +1,13 @@
 <?php
     require_once 'support.php';
 
+echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">
+    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
+    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>
+    <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"main.css\">";
+
     class createGroup {
-        static $staticUid = 0;
 
         function groupIdExists($id)
     {
@@ -37,37 +42,58 @@ if(isset($_POST["create"])) {
 
         $email = $_POST["email"];
         $password = $_POST["password"];
-	    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $groupName = $_POST['groupName'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 	    if(!createGroup::userExists($email)) {
-            $query = "INSERT INTO users (email, password, groupid) values ('$email', '$hashedPassword', '$groupId');";
+            $query = "INSERT INTO users (email, password, groupid, firstname, lastname) values ('$email', '$hashedPassword', '$groupId', '$firstName', '$lastName');";
             connectAndQuery($query);
-            $query = "INSERT INTO email_group (email, groupid) values ('$email', '$groupId');";
+            $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
             connectAndQuery($query);
         }else{
             echo "<script type='text/javascript'>alert(\"Username already exists\");window.location=\"createGroup.php\";</script>";
         }
 
         $body = <<<BODY
-        <h3>Your Group ID is: $groupId </h3>
+        <div class="flexcontainer">
+        
+        <div class="container-fluid bg-3 text-center header">
+        <h1>Your Group ID is: </h1><br>
+        <input type="text" value=$groupId readonly="readonly" size="8"/>
+        </div>
+        
+        <div class="container-fluid bg-2 text-center">
         <form action="createAccount.php" method="post">
             <input type="hidden" name="groupId" value="$groupId"/>
             <input type="hidden" name="email" value="$email"/>
             <input type="hidden" name="password" value="$hashedPassword"/>
             <input type="submit" name="next" value="Next"/>
         </form>
+        </div>
+        
+</div>
 BODY;
     generatePage($body, 'Sign Up');
     } else{
         $body = <<<BODY
-    <h1>Accountability</h1>
+        <div class="flexcontainer">
+
     <form action="createGroup.php" method="POST">
-    <h3>First, create a personal account:</h3>
-        <strong>First Name </strong><input type="text" name="firstname" required/><br><br>
-        <strong>Last Name </strong><input type="text" name="lastname" required/><br><br>
+    <div class="container-fluid bg-4 text-center">
+    <h1>First, create a personal account:</h1>
+    </div>
+    <div class="container-fluid bg-3 text-center">
+        <strong>First Name </strong><input type="text" name="firstName" required/><br><br>
+        <strong>Last Name </strong><input type="text" name="lastName" required/><br><br>
+        <strong>Group Name </strong><input type="text" name="groupName" required/><br><br>
         <strong>Email </strong><input type="email" name="email" required/><br><br>
         <strong>Create Password </strong><input type="password" name="password" required/><br><br>
         <input type="submit" name="create" value="OK"/><br><br>
+        </div>
     </form>
+</div>
 BODY;
     generatePage($body, 'Sign Up');
     }

@@ -4,9 +4,17 @@
     $groupid = 123;
     $currentuser = "Steven Liao";
 
+    $query = "SELECT groupname ".
+        "FROM GROUPID_GROUPNAME ".
+        "WHERE groupid='$groupid'";
+    $result = connectAndQuery($query);
+    $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $groupname = $recordArray['groupname'];
+
+
     $top = <<<BODY
         <div class="container-fluid">
-            <h1 align="center">Group $groupid</h1>
+            <h1 align="center">$groupname ($groupid)</h1>
             <br/>
 BODY;
     $left = <<<BODY
@@ -14,12 +22,16 @@ BODY;
                 <div class="col-sm-8">
 BODY;
 
+    foreach ($_POST as $query) {
+        if (substr($query, 0, 6) == "INSERT")
+            connectAndQuery($query);
+    }
+
     $query = "SELECT firstname,lastname ".
     "FROM users ".
     "JOIN EMAIL_GROUP ".
     "ON users.email = EMAIL_GROUP.email ".
-    "WHERE groupid='123'";
-        
+    "WHERE groupid='$groupid'";
     $result = connectAndQuery($query);
     if ($result) {
         $numberOfRows = mysqli_num_rows($result);
@@ -29,7 +41,9 @@ BODY;
             while ($recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $firstname = $recordArray['firstname'];
                 $lastname = $recordArray['lastname'];
+
                 $left.= <<<BODY
+
                     <div style="border-style: solid;padding: 10px;width:70%">
                         <h3> $firstname $lastname &#9733;&#9733; </h3><br/>
                         <h4>Goal: Sleep</h4>
@@ -37,12 +51,37 @@ BODY;
                             <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
                         </div>
                         <br/>
-                        <div style = "max-height:100px;overflow:auto;">
-                            <text id = "personalmessage$firstname$lastname"></text><br/>
-                        </div>
-                        <input type="text" id="message$firstname$lastname" placeholder="enter message"/>
-                        <input type="button" id="sendPersonalMessage"
-                            value = "Send" onclick="clickSendPersonal('$firstname$lastname','$currentuser');"/>
+                        <form action="GroupPage.php" method="post">
+                            <div id = "$firstname$lastname" style = "max-height:100px;overflow:auto;">
+                                <text id = "personalmessage$firstname$lastname">
+BODY;
+                $query = "SELECT sender,message,datetime ".
+                    "FROM message ".
+                    "WHERE recipient='$firstname$lastname'";
+
+                $chat = "";
+                $result2 = connectAndQuery($query);
+                if ($result2) {
+                    while ($recordArray = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
+                        $sender = $recordArray['sender'];
+                        $message = $recordArray['message'];
+                        $datetime = substr($recordArray['datetime'],0,-10);
+
+                        $chat = $sender." <small>".$datetime."</small><br/>"
+                            ."<small>&emsp;".$message."</small><br/>".$chat;
+                    }
+                }
+                $left.= $chat;
+
+                $left.= <<<BODY
+                                </text><br/>
+                            </div>
+                            <input type="text" id="message$firstname$lastname" placeholder="enter message"/>
+                            <input type="submit" id="sendPersonalMessage" value = "Send"
+                                onclick="clickSendPersonal('$firstname$lastname','$currentuser','$groupid');"/>
+                            <input type = "hidden" name = "personalmessage$firstname$lastname"
+                                id="personalmessageH$firstname$lastname"/>
+                        </form>
                     </div>
                     <br/>
 BODY;
@@ -56,12 +95,37 @@ BODY;
                 <div style="border-style: solid;padding: 10px">
                     <h2 align="center"> Group Chat</h2>
                     <div style = "max-height:300px;overflow:auto;">
-                        <text id = "groupmessage"></text><br/>
+                            <text>
+BODY;
+    $query = "SELECT sender,message,datetime ".
+        "FROM message ".
+        "WHERE recipient='group'";
+
+    $chat = "";
+    $result2 = connectAndQuery($query);
+    if ($result2) {
+        while ($recordArray = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
+            $sender = $recordArray['sender'];
+            $message = $recordArray['message'];
+            $datetime = substr($recordArray['datetime'],0,-10);
+
+            $chat = $sender." <small>".$datetime."</small><br/>"
+                ."<small>&emsp;".$message."</small><br/>".$chat;
+        }
+    }
+    $right.= $chat;
+
+    $right.= <<<BODY
+                        </text><br/>
                     </div>
+                    <form action="GroupPage.php" method="post">
                     <input type="text" id="message" placeholder="enter message"/>
-                    <input type="button" id="sendGroupMessage"
-                        value = "Send" onclick="clickSendGroup('$currentuser');"/>
-                    </div>
+                    <input type="submit" id="sendGroupMessage"
+                        value = "Send" onclick="clickSendGroup('$currentuser','$groupid');"/>
+                    <input type = "hidden" name = "groupmessage"
+                        id="groupmessage"/>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -114,35 +178,56 @@ BODY;
     generatePage($body, 'Group Page');
 ?>
 <script>
-    function clickSendGroup(currentuser) {
+    function scrollToBottom(id) {
+        alert(id);
+        let objDiv = document.getElementById(id);
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
+    function clickSendGroup(currentuser,groupid) {
         let message = document.getElementById("message").value;
         if (message != "") {
-            let currentdate = new Date();
-            let datetime = (currentdate.getMonth()+1) + "/"
-                +  currentdate.getDate() + "/"
-                + currentdate.getFullYear() + " " +
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes();
-
+            let datetime = getCurrentTime();
             let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
                 "<small>&emsp;"+message+"</small><br/>";
-            document.getElementById("groupmessage").innerHTML += newmessage;
+            //document.getElementById("groupmessage").innerHTML += newmessage;
+
+            document.getElementById("groupmessage").value +=
+                "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
+                + "VALUES ('"
+                + message + "','"
+                + currentuser + "','group','"
+                + datetime + "','"
+                + groupid + "')";
         }
     }
 
-    function clickSendPersonal(name,currentuser) {
+    function clickSendPersonal(name,currentuser,groupid) {
         let message = document.getElementById("message"+name).value;
         if (message != "") {
-            let currentdate = new Date();
-            let datetime = (currentdate.getMonth()+1) + "/"
-                +  currentdate.getDate() + "/"
-                + currentdate.getFullYear() + " " +
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes();
+            let datetime = getCurrentTime();
+            //let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
+            //    "<small>&emsp;"+message+"</small><br/>";
+            //document.getElementById("personalmessage"+name).innerHTML += newmessage;
+            document.getElementById("personalmessage").value +=
+                "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
+                + "VALUES ('"
+                + message + "','"
+                + currentuser + "','"
+                + name + "','"
+                + datetime + "','"
+                + groupid + "')";
 
-            let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
-                "<small>&emsp;"+message+"</small><br/>";
-            document.getElementById("personalmessage"+name).innerHTML += newmessage;
+
         }
+    }
+
+    function getCurrentTime() {
+        let currentdate = new Date();
+        return currentdate.getFullYear() + "-"
+           +  (currentdate.getMonth()+1) + "-"
+           +  currentdate.getDate() + " " +
+           + currentdate.getHours() + ":"
+           + currentdate.getMinutes();
     }
 </script>

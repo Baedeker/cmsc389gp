@@ -5,9 +5,11 @@ echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/
     <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
     <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>
     <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
-    <link rel=\"stylesheet\" href=\"main.css\">";
+    <link rel=\"stylesheet\" href=\"main.css\">
+    <link rel=\"stylesheet\" href=\"createAccount.css\">";
 
     $body = <<<BODY
+    <div class="page flexcontainer">
     <div class="container-fluid bg-2 text-center">
         <h3>Choose what you and your friends would most like to improve on</h3>
 </div>
@@ -24,7 +26,7 @@ echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/
         </form>    
 </div>
 <div class="container-fluid bg-4 text-center"></div>
-
+</div>
 BODY;
     generatePage($body, 'Create Account');
 

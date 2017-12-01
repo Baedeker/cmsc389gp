@@ -1,12 +1,6 @@
 <?php
 require_once 'support.php';
 
-echo "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">
-    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
-    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>
-    <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
-    <link rel=\"stylesheet\" href=\"main.css\">";
-
 $groupId = $_POST['groupId'];
 function userExists($email) {
     $query = "SELECT * FROM users WHERE email = '$email'";
@@ -61,7 +55,6 @@ function getBody($groupId)
 BODY;
     return $body;
 }
-
     $groupId = $_POST['groupId'];
 
 if(isset($_POST["createAccount"])) {
@@ -74,7 +67,7 @@ if(isset($_POST["createAccount"])) {
 
     if (!userExists($email)) {
 
-        $query = "INSERT INTO users (email, password firstname, lastname) values ('$email', '$hashedPassword', '$firstName', '$lastName');";
+        $query = "INSERT INTO users (email, password, firstname, lastname) values ('$email', '$hashedPassword', '$firstName', '$lastName');";
         connectAndQuery($query);
         $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
         connectAndQuery($query);
@@ -104,7 +97,7 @@ if(isset($_POST["createAccount"])) {
         session_start();
         $_SESSION["groupId"] = $groupId;
         $_SESSION["email"] = $email;
-        header("Location: GroupPage.php");
+        header("Location: profilePage.php");
     }else{
         echo "<script type='text/javascript'>alert(\"Wrong username/password combination\")</script>";
         echo getBody($groupId);

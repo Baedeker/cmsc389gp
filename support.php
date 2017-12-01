@@ -1,5 +1,5 @@
-<?php
 
+<?php
 function generatePage($body, $title, $script="") {
     $page = <<<EOPAGE
 <!doctype html>
@@ -9,7 +9,6 @@ function generatePage($body, $title, $script="") {
         <title>$title</title> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <link rel="stylesheet" href="main.css">
-
     </head>
             
     <body>
@@ -22,25 +21,21 @@ function generatePage($body, $title, $script="") {
 <script src="$script"></script>
 </html>
 EOPAGE;
-
     echo $page;
 }
-
 function connectAndQuery($query){
      $db_connection = new mysqli('localhost', 'dbuser', 'e5Y6f7xhNiiN3PCj', 'accountability');
-	if ($db_connection->connect_error) {
-		die($db_connection->connect_error);
-	}
-
+    if ($db_connection->connect_error) {
+        die($db_connection->connect_error);
+    }
     $result = $db_connection->query($query);
-	if (!$result) {
-		die("Retrieval failed: ". $db_connection->error);
-	} else {
+    if (!$result) {
+        die("Retrieval failed: ". $db_connection->error);
+    } else {
         return $result;       
 }
     $db_connection->close();
 }
-
 function generateRadioSelect($name){
     $toReturn = <<<RET
         <div class="form-check form-check-inline">
@@ -49,7 +44,6 @@ function generateRadioSelect($name){
                         Not during the past month
                     </label>
                 </div>
-
                <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="$name"  value="Less than once a week">
@@ -57,7 +51,6 @@ function generateRadioSelect($name){
                     </label>
                 </div>                     
                 
-
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="$name"  value="Once or twice a week">
@@ -65,7 +58,6 @@ function generateRadioSelect($name){
                     </label>
                 </div>
                 
-
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="$name"  value="Three or more times a week">
@@ -73,10 +65,8 @@ function generateRadioSelect($name){
                     </label>
                 </div>
 RET;
-
     return $toReturn;
 }
-
 function generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBed, $within30, $middleOfNight, $troubleAwake, $overall){
     $toReturn = <<<RET
     <div class="container">
@@ -97,8 +87,17 @@ function generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBe
                 </div>    
             </div>    
         </div>    
-
 RET;
     return $toReturn;
+}
+function getResourceTable($issue) {
+    $basicformat = "<a href = \"URL\">TITLE</a>"
+    $sleepingproblems = array("<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>", "<a href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>", "<a href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>", "<a href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>"); 
+    $notenoughsleep = array("<a href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>", "<a href = \"\"></a>", "<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>", "<a href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>", "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>"); 
+    if ($issue === "sleepingproblems") {
+        return $sleepingproblems; 
+    } else {
+        return $notenoughsleep; 
+    }
 }
 ?>

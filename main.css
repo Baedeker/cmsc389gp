@@ -3,21 +3,21 @@ body {
 }
 
 .bg-1 {
-    background-color:  #f7d08a; /* Green */
+    background-color:  #f7d08a;
     color: #5b5941;
     padding-top: 1.5em;
     padding-bottom: 1.5em;
 }
 
 .bg-2 {
-    background-color: #87b6a7; /* White */
+    background-color: #87b6a7;
     color: #ffffff;
 }
 
 .bg-3 {
     padding-top: 1.5em;
     padding-bottom: 1.5em;
-    background-color: #e3f09b; /* Dark Blue */
+    background-color: #e3f09b;
     color: #5b5941;
 }
 
@@ -58,4 +58,18 @@ form-check-input{
 .header{
     padding-top: 0em;
     padding-bottom: 2em;
+}
+
+.flexcontainer {
+    background-color: #f7d08a;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column; /* works with row or column */
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    align-items: stretch;
+    height: 100%;
 }

@@ -1,8 +1,15 @@
 <?php
     require_once 'support.php';
 
-    $currentuseremail = "jfan10";
-    $currentuser = "Alex Li";
+    session_start();
+
+    $currentuseremail = $_SESSION['email'];
+
+    $query = "SELECT * FROM users WHERE email=$currentuseremail";
+    $result = connectAndQuery($query);
+
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";
     $recentdate;
     $recentsleep;
 
@@ -23,43 +30,8 @@ BODY;
 
     $right = "";
 
-    $topandleft = generateTable($currentuser, $left);
+    $topandleft = generateTable($currentuser, $currentuseremail, $left);
 
-    /*$query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
-        "FROM sleeplogs ".
-        "WHERE `email` = 'jfan10'";
-
-    $result = connectAndQuery($query);
-    if ($result) {
-        if (mysqli_num_rows($result)) {
-            while ($records = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                $recentdate = convertDate($records['date']);
-                $recentsleep = $records['actualsleep'];
-                $timewakeup = $records['timewakeup'];
-                $timefallasleep = $records['timefallasleep'];
-                $timeinbed = $records['timeinbed'];
-
-                $left .= <<<BODY
-                    <tr>
-                        <td>$recentdate</td>
-                        <td>$timeinbed</td>
-                        <td>$timefallasleep</td>
-                        <td>$timewakeup</td>
-                        <td>$recentsleep</td>
-                    </tr>
-BODY;
-            }
-            $left .= "</tbody></table></div><br>";
-            $top = <<<BODY
-                <div class="container-fluid">
-                <h1>Hey there, $currentuser!</h1><br>
-                The last time you updated was: $recentdate<br><br>
-            </div>
-BODY;
-        } else {
-            $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
-        }
-    }*/
 
     $right = <<<BODY
     <div class="container-fluid">
@@ -179,10 +151,10 @@ BODY;
         return $converted_date;
     }
 
-    function generateTable($currentuser, $left) {
+    function generateTable($currentuser, $currentuseremail, $left) {
         $query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
             "FROM sleeplogs ".
-            "WHERE `email` = 'jfan10'";
+            "WHERE `email` = '$currentuseremail'";
         $recentdate;
 
         $result = connectAndQuery($query);

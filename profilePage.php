@@ -37,14 +37,58 @@ BODY;
     <div class="container-fluid">
         <h4>Log more entries!</h4>
         <form action= "{$_SERVER['PHP_SELF']}" method="post">
-            Today's Date (MM/DD/YY): <input type="date" name="date" id="d"><br>
-            Time In Bed: <input type="number" name="timeinbedhours" id="tbh" max="24" style="width: 40px">
-                :&nbsp;<input type="number" name="timeinbedminutes" id="tbm" max="60" style="width: 40px"><br>
-            Time Falling Asleep: <input type="number" name="timefallasleephours" id="tfh" max="24" style="width: 40px">
-                :&nbsp;<input type="number" name="timefallasleepminutes" id="tfm" max="60" style="width: 40px"><br>
-            Time Waking Up: <input type="number" name="timewakeuphours" id="twh" max="24" style="width: 40px">
-                :&nbsp;<input type="number" name="timewakeupminutes" id="twm" max="60" style="width: 40px"><br>
-            Actual Sleep: <input type="float" name="actualsleep" id="st" step="0.01"><br><br>
+            <div class="form-group">
+                <label for="date">Today's Date (MM/DD/YY):</label> <input type="date" name="date" id="d" class="form-control">
+            </div>
+            <br>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="timeinbedhours">Time In Bed:</label>
+                    <input type="number" name="timeinbedhours" id="tbh" max="24" style="width: 40px" class="form-control">
+                </div>
+                <div class="col">    
+                    <label for="timeinbedminutes":&nbsp;</label>
+                    <input type="number" name="timeinbedminutes" id="tbm" max="60" style="width: 40px" class="form-control">
+                </div>    
+            </div>    
+
+            <br>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="timefallasleephours">Time Falling Asleep:</label>
+                    <input type="number" name="timefallasleephours" id="tfh" max="24" style="width: 40px" class="form-control">
+                </div>
+                <div class="col">    
+                    <label for="timefallasleepminutes">:&nbsp;</label>
+                    <input type="number" name="timefallasleepminutes" id="tfm" max="60" style="width: 40px" class="form-control">
+                </div>
+            </div>                    
+            
+            <br>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="timewakeuphours">Time Waking Up: </label>
+                    <input type="number" name="timewakeuphours" id="twh" max="24" style="width: 40px" class="form-control">
+                </div>
+
+                <div class="col">
+                   <label for="timewakeupminutes">:&nbsp;</label>
+                    <input type="number" name="timewakeupminutes" id="twm" max="60" style="width: 40px" class="form-control">
+                </div>
+            </div>        
+                    
+            <br>
+
+            <div class="form-group">
+                <label for="actualSleep">Actual Sleep:</label>
+                    <input type="float" name="actualsleep" id="st" step="0.01" class="form-control">
+                </label>
+            </div>            
+            <br>
+            <br>
             <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="reset" name="reset">
         </form>

@@ -113,7 +113,7 @@ BODY;
             	<div class="form-group">
                     <label for="bedtimeGoal">Currently, you are falling asleep at $bedtime. What time do you want to be
                     falling asleep at</label>
-                    <input type="time" name="bedtimeGoal">
+                    <input type="time" name="bedtimeGoal" class="form-control">
                 </div>    
                 
                 <div class="form-group">
@@ -128,7 +128,7 @@ BODY;
                     How many days during the week would you ideally be tired during the day?</label>
                     <input type="text" name="troubleAwakeGoal">
                 </div>
-
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 <input type="hidden" value="$email" name="email">
             </form>
 

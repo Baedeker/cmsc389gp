@@ -37,7 +37,7 @@ BODY;
     <div class="container-fluid">
         <h4>Log more entries!</h4>
         <form action= "{$_SERVER['PHP_SELF']}" method="post">
-            Today's Date (MMDDYY): <input type="text" name="date" id="d" maxlength="6" minlength="6"><br>
+            Today's Date (MM/DD/YY): <input type="date" name="date" id="d"><br>
             Time In Bed: <input type="number" name="timeinbedhours" id="tbh" max="24" style="width: 40px">
                 :&nbsp;<input type="number" name="timeinbedminutes" id="tbm" max="60" style="width: 40px"><br>
             Time Falling Asleep: <input type="number" name="timefallasleephours" id="tfh" max="24" style="width: 40px">
@@ -102,46 +102,47 @@ BODY;
     generatePage($body, 'Profile Page');
 
     function convertDate($date) {
+        //YYYY-MM-DD
         $converted_date = "";
-        $month = (int)substr($date,0,2);
+        $month = substr($date,5,2);
         $day = substr($date,2,2);
         $year = substr($date,4);
 
         switch ($month) {
-            case 1:
+            case "01":
                 $converted_date .= "January ";
                 break;
-            case 2:
+            case "02":
                 $converted_date .= "February ";
                 break;
-            case 3:
+            case "03":
                 $converted_date .= "March ";
                 break;
-            case 4:
+            case "04":
                 $converted_date .= "April ";
                 break;
-            case 5:
+            case "05":
                 $converted_date .= "May ";
                 break;
-            case 6:
+            case "06":
                 $converted_date .= "June ";
                 break;
-            case 7:
+            case "07":
                 $converted_date .= "July ";
                 break;
-            case 8:
+            case "08":
                 $converted_date .= "August ";
                 break;
-            case 9:
+            case "09":
                 $converted_date .= "September ";
                 break;
-            case 10:
+            case "10":
                 $converted_date .= "October ";
                 break;
-            case 11:
+            case "11":
                 $converted_date .= "November ";
                 break;
-            case 12:
+            case "12":
                 $converted_date .= "December ";
                 break;
         }

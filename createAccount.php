@@ -1,13 +1,10 @@
 <?php
 
     require_once 'support.php';
-<<<<<<< HEAD
     $email = $_POST['email'];
 echo "
     <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
     <link rel=\"stylesheet\" href=\"createAccount.css\">";
-=======
->>>>>>> origin/master
 
     $body = <<<BODY
     <div class="page flexcontainer">
@@ -22,10 +19,7 @@ echo "
                 Sleep
                 </label>
             </div><br>
-<<<<<<< HEAD
             <input type="hidden" name="email" value="$email">
-=======
->>>>>>> origin/master
             <button type="submit" name="setGoals">Submit</button>
         </form>    
 </div>

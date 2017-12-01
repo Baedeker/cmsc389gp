@@ -8,7 +8,7 @@ function generatePage($body, $title, $script="") {
         <meta charset="utf-8" />
         <title>$title</title> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="main.css">
 
     </head>
             
@@ -45,7 +45,7 @@ function generateRadioSelect($name){
     $toReturn = <<<RET
         <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="$name"  value="Not during the past month">
+                        <input class="form-check-input" type="radio" name="$name"  checked="checked" value="Not during the past month">
                         Not during the past month
                     </label>
                 </div>
@@ -97,7 +97,6 @@ function generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBe
                 </div>    
             </div>    
         </div>    
-}
 
 RET;
     return $toReturn;

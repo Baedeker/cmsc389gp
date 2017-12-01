@@ -1,5 +1,6 @@
 <?php
 require_once 'support.php';
+session_start();
 
 $groupId = $_POST['groupId'];
 function userExists($email) {
@@ -28,6 +29,14 @@ function getGroupName($groupId)
 function getBody($groupId)
 {
     $groupName = getGroupName($groupId);
+    $firstName = (isset($_SESSION['firstName']))? $_SESSION['firstName'] : "";
+    $lastName = (isset($_SESSION['lastName']))? $_SESSION['lastName'] : "";
+    $email = (isset($_SESSION['email']))? $_SESSION['email'] : "";
+    $password = (isset($_SESSION['password']))? $_SESSION['password'] : "";
+    unset($_SESSION['firstName']);
+    unset($_SESSION['lastName']);
+    unset($_SESSION['email']);
+    unset($_SESSION['password']);
     $body = <<<BODY
     <div class="container-fluid bg-3 text-center">
     <h1>Welcome to group $groupName!</h1>
@@ -35,8 +44,8 @@ function getBody($groupId)
     <div class="container-fluid bg-4 text-center">
     <h3>Log in</h3>
     <form action="" method="post">
-    <strong>Email </strong><input type="email" name="email" required/><br><br>
-    <strong>Password </strong><input type="password" name="password" required/><br><br>
+    <strong>Email </strong><input type="email" name="email" required value=$email><br><br>
+    <strong>Password </strong><input type="password" name="password" required value=$password><br><br>
     <input type="hidden" name="groupId" value="$groupId"/>
     <input type="submit" name="login" value="Log In"/> 
 </form>
@@ -44,8 +53,8 @@ function getBody($groupId)
 <div class="container-fluid bg-2 text-center">
     <h3>Or Create Account</h3>
     <form action="" method="post">
-    <strong>First Name </strong><input type="text" name="firstName" required/><br><br>
-    <strong>Last Name </strong><input type="text" name="lastName" required/><br><br>
+    <strong>First Name </strong><input type="text" name="firstName" required value=$firstName><br><br>
+    <strong>Last Name </strong><input type="text" name="lastName" required value=$lastName><br><br>
      <strong>Email </strong><input type="email" name="email" required/><br><br>
     <strong>Password </strong><input type="password" name="password" required/><br><br>
     <input type="hidden" name="groupId" value="$groupId"/>
@@ -73,6 +82,9 @@ if(isset($_POST["createAccount"])) {
         connectAndQuery($query);
         header("Location: createAccount.php");
     } else {
+        $_SESSION['firstName'] = $firstName;
+        $_SESSION['lastName'] = $lastName;
+        $_SESSION['groupName'] = $groupName;
         echo "<script type='text/javascript'>alert(\"Username already exists\");</script>";
         echo getBody($groupId);
     }
@@ -99,6 +111,8 @@ if(isset($_POST["createAccount"])) {
         $_SESSION["email"] = $email;
         header("Location: profilePage.php");
     }else{
+        $_SESSION['email'] = $email;
+        $_SESSION['password'] = $password;
         echo "<script type='text/javascript'>alert(\"Wrong username/password combination\")</script>";
         echo getBody($groupId);
     }

@@ -21,13 +21,13 @@
 
 
     $top = <<<BODY
-        <div class="container-fluid">
+        <div class="container-fluid bg-2">
             <h1 align="center">$groupname ($groupid)</h1>
             <br/>
 BODY;
     $left = <<<BODY
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-7">
 BODY;
 
     foreach ($_POST as $query) {
@@ -52,8 +52,10 @@ BODY;
 
                 $left.= <<<BODY
 
-                    <div style="border-style: solid;padding: 10px;width:70%">
-                        <h3> $firstname $lastname &#9733;&#9733; </h3><br/>
+                    <div class="bg-3" style="border-style: solid;padding: 10px;width:100%">
+                        <h3 onclick="window.location.href='profilePage.php'">
+                            $firstname $lastname &#9733;&#9733;
+                        </h3><br/>
                         <h4>Goal: Sleep</h4>
                         <div class="progress" style="width:80%">
                             <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
@@ -87,8 +89,8 @@ BODY;
                             <input type="text" id="message$firstname$lastname" placeholder="enter message"/>
                             <input type="submit" id="sendPersonalMessage" value = "Send"
                                 onclick="clickSendPersonal('$firstname$lastname','$currentuser','$groupid');"/>
-                            <input type = "hidden" name = "personalmessage$firstname$lastname"
-                                id="personalmessageH$firstname$lastname"/>
+                            <input type = "hidden" name = "personalmessage"
+                                id="personalmessage"/>
                         </form>
                     </div>
                     <br/>
@@ -99,8 +101,8 @@ BODY;
     $left .= "</div>";
 
     $right = <<<BODY
-        <div class="col-sm-4">
-                <div style="border-style: solid;padding: 10px">
+        <div class="col-sm-5">
+                <div class="bg-3" style="border-style: solid;padding: 10px">
                     <h2 align="center"> Group Chat</h2>
                     <div style = "max-height:300px;overflow:auto;">
                             <text>
@@ -196,10 +198,6 @@ BODY;
         let message = document.getElementById("message").value;
         if (message != "") {
             let datetime = getCurrentTime();
-            let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
-                "<small>&emsp;"+message+"</small><br/>";
-            //document.getElementById("groupmessage").innerHTML += newmessage;
-
             document.getElementById("groupmessage").value +=
                 "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
                 + "VALUES ('"
@@ -214,9 +212,6 @@ BODY;
         let message = document.getElementById("message"+name).value;
         if (message != "") {
             let datetime = getCurrentTime();
-            //let newmessage = currentuser+" <small>"+datetime+"</small><br/>"+
-            //    "<small>&emsp;"+message+"</small><br/>";
-            //document.getElementById("personalmessage"+name).innerHTML += newmessage;
             document.getElementById("personalmessage").value +=
                 "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
                 + "VALUES ('"
@@ -225,8 +220,6 @@ BODY;
                 + name + "','"
                 + datetime + "','"
                 + groupid + "')";
-
-
         }
     }
 

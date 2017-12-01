@@ -107,9 +107,9 @@ BODY;
     $right = <<<BODY
         <div class="col-sm-5">
                 <div class="bg-3" style="border-style: solid;padding: 10px">
-                    <h2 align="center"> Group Chat</h2>
+                    <h2 align="center">Group Chat</h2>
                     <div style = "max-height:300px;overflow:auto;">
-                            <text>
+                    <text id="groupchat"></text>
 BODY;
     $query = "SELECT sender,message,datetime ".
         "FROM message ".
@@ -130,16 +130,13 @@ BODY;
     $right.= $chat;
 
     $right.= <<<BODY
-                        </text><br/>
+                        <br/>
                     </div>
-                    <form action="GroupPage.php" method="post">
                     <input type="text" id="message" placeholder="enter message"/>
-                    <input type="submit" id="sendGroupMessage"
+                    <input type="button" id="sendGroupMessage"
                         value = "Send" onclick="clickSendGroup('$currentuser','$groupid');"/>
                     <input type = "hidden" name = "groupmessage"
                         id="groupmessage"/>
-                    </form>
-
                 </div>
             </div>
         </div>
@@ -199,8 +196,8 @@ BODY;
     }
     function logout() {
         request = $.ajax({
-            url: "ajax.php",
-            type: "post",
+            url: "ajax_logout.php",
+            type: "post"
         });
         window.location.href="main.html";
     }
@@ -209,13 +206,20 @@ BODY;
         let message = document.getElementById("message").value;
         if (message != "") {
             let datetime = getCurrentTime();
-            document.getElementById("groupmessage").value +=
-                "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
-                + "VALUES ('"
-                + message + "','"
-                + currentuser + "','group','"
-                + datetime + "','"
-                + groupid + "')";
+            $.ajax({
+                url: "ajax_insert.php",
+                type: "post",
+                data: {query : "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
+                     + "VALUES ('"
+                     + message + "','"
+                     + currentuser + "','group','"
+                     + datetime + "','"
+                     + groupid + "')"}
+            });
+            document.getElementById("groupchat").innerHTML =
+                currentuser+" <small>"+datetime+"</small><br/>"
+                +"<small>&emsp;"+message+"</small><br/>"+document.getElementById("groupchat").innerHTML;
+            document.getElementById("message").value = "";
         }
     }
 

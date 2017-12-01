@@ -2,6 +2,10 @@
     require_once 'support.php';
 
     session_start();
+
+    if(!isset($_SESSION['email']))
+        header('Location: main.html');
+
     $email = $_SESSION["email"];
     $query = "SELECT firstname,lastname ".
             "FROM users ".
@@ -23,7 +27,7 @@
     $top = <<<BODY
         <div class="container-fluid bg-2">
             <h1 align="center">$groupname ($groupid)</h1>
-            <br/>
+            <h3 align="right" onclick="logout();">Logout</h3>
 BODY;
     $left = <<<BODY
             <div class="row">
@@ -192,6 +196,13 @@ BODY;
         alert(id);
         let objDiv = document.getElementById(id);
         objDiv.scrollTop = objDiv.scrollHeight;
+    }
+    function logout() {
+        request = $.ajax({
+            url: "ajax.php",
+            type: "post",
+        });
+        window.location.href="main.html";
     }
 
     function clickSendGroup(currentuser,groupid) {

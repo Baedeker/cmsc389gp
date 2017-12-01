@@ -1,4 +1,24 @@
 <?php
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    require_once 'support.php';
+
+    session_start();
+
+    $currentuseremail = $_SESSION['email'];
+
+    $query = "SELECT * FROM users WHERE email='$currentuseremail'";
+    $result = connectAndQuery($query);
+
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";
+    $recentdate;
+    $recentsleep;
+
+    $left = <<<BODY
+=======
+>>>>>>> Stashed changes
 require_once 'support.php';
 session_start();
 
@@ -24,6 +44,10 @@ $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";
 
 
 $left = <<<BODY
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
         <div class="container-fluid">
             <table class="table table-striped">
                 <thead>
@@ -42,6 +66,85 @@ $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $lef
 
 if ($currentuseremail === $profileemail) {
     $right = <<<BODY
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    <div class="container-fluid">
+        <div class="row">
+            <h4>Log more entries!</h4>
+        </div>
+
+        <div class="row>
+            <div class="col-sm"></div>
+            
+            <div class="col-sm">
+            <form action= "{$_SERVER['PHP_SELF']}" method="post">
+                <div class="form-group">
+                    <label for="date">Today's Date (MM/DD/YY):</label> <input type="date" name="date" id="d" class="form-control">
+                </div>
+
+                <br>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="timeinbedhours">Time In Bed:</label>
+                        <input type="number" name="timeinbedhours" id="tbh" placeholder="hrs" max="24"  class="form-control">
+    
+                    </div>
+
+                    <div class="col">    
+                        <label for="timeinbedminutes">&nbsp;</label>
+                        <input type="number" name="timeinbedminutes" id="tbm" max="60" placeholder="mins" class="form-control">
+                    </div>    
+
+                </div>    
+
+            <br>
+
+            <div class="form-row">
+
+                <div class="col">
+                    <label for="timefallasleephours">Time Falling Asleep:</label>
+                    <input type="number" name="timefallasleephours" id="tfh" max="24" placeholder="hrs" class="form-control">
+                </div>
+                
+                <div class="col">    
+                    <label for="timefallasleepminutes">&nbsp;</label>
+                    <input type="number" name="timefallasleepminutes" id="tfm" max="60" placeholder="mins" class="form-control">
+                </div>
+            </div>                    
+            
+            <br>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="timewakeuphours">Time Waking Up: </label>
+                    <input type="number" name="timewakeuphours" id="twh" max="24" placeholder="hrs" style="width: 40px" class="form-control">
+                </div>
+
+                <div class="col">
+                   <label for="timewakeupminutes">&nbsp;</label>
+                    <input type="number" name="timewakeupminutes" id="twm" max="60" placeholder="mins" style="width: 40px" class="form-control">
+                </div>
+            </div>        
+                    
+            <br>
+
+            <div class="form-group">
+                <label for="actualSleep">Actual Sleep:</label>
+                    <input type="float" name="actualsleep" id="st" step="0.01" class="form-control">
+                </label>
+            </div>            
+            <br>
+            <br>
+            <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="reset" name="reset">
+        </form>
+        </div>
+        <div class="col-sm"></div>
+    </div><br><br>
+=======
+>>>>>>> Stashed changes
         <div class="container-fluid">
             <h4>Log more entries!</h4>
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
@@ -57,6 +160,10 @@ if ($currentuseremail === $profileemail) {
                 <input type="reset" name="reset">
             </form>
         </div><br><br>
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 BODY;
 } else {
     $right = "";
@@ -152,6 +259,28 @@ function convertDate($date)
             $converted_date .= "December ";
             break;
     }
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+    function generateTable($currentuser, $currentuseremail, $left) {
+        $query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
+            "FROM sleeplogs ".
+            "WHERE `email` = '$currentuseremail'";
+        $recentdate;
+
+        $result = connectAndQuery($query);
+            if (mysqli_num_rows($result)) {
+                while ($records = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                    $recentdate = convertDate($records['date']);
+                    $recentsleep = $records['actualsleep'];
+                    $timewakeup = $records['timewakeup'];
+                    $timefallasleep = $records['timefallasleep'];
+                    $timeinbed = $records['timeinbed'];
+
+                    $left .= <<<BODY
+=======
+>>>>>>> Stashed changes
     $converted_date .= $day;
     $converted_date .= ", 20";
     $converted_date .= $year;
@@ -174,6 +303,10 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
                 $timefallasleep = $records['timefallasleep'];
                 $timeinbed = $records['timeinbed'];
                 $left .= <<<BODY
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
                     <tr>
                         <td>$recentdate</td>
                         <td>$timeinbed</td>
@@ -191,13 +324,26 @@ BODY;
                     The last time you updated was: $recentdate<br><br>
                 </div>
 BODY;
+            $body = $top.$left;
+            return $body;
             } else {
                 $top = "";
             }
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+        
+        
+=======
+>>>>>>> Stashed changes
 
         } else {
             $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
         }
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
     }
     $body = $top . $left;
     return $body;

@@ -112,8 +112,8 @@ BODY;
             <form action="goals.php" method="post">
             	<div class="form-group">
                     <label for="bedtimeGoal">Currently, you are falling asleep at $bedtime. What time do you want to be
-                    falling asleep at</label>
-                    <input type="time" name="bedtimeGoal" class="form-control">
+                    falling asleep at?</label>
+                    <input type="time" name="bedtimeGoal" style="width:30%" class="form-control">
                 </div>    
                 
                 <div class="form-group">

@@ -1,4 +1,5 @@
 <?php
+    require_once 'support.php';
     $email = $_POST['email'];
     $bedtimeGoal = $_POST['bedtimeGoal'];
     $fallAsleepGoal = $_POST['fallAsleepGoal'];
@@ -21,5 +22,6 @@
         </div>        
 BODY;
 
+    generatePage($body, 'GOALS');
 
 ?>

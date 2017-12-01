@@ -91,13 +91,22 @@ RET;
     return $toReturn;
 }
 function getResourceTable($issue) {
-    $basicformat = "<a href = \"URL\">TITLE</a>";
-    $sleepingproblems = array("<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>", "<a href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>", "<a href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>", "<a href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>"); 
-    $notenoughsleep = array("<a href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>", "<a href = \"\"></a>", "<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>", "<a href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>", "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>"); 
+    //$basicformat = "<a href = \"URL\">TITLE</a>";
+    $sleepingproblems = array("<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>",
+        "<a href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>",
+        "<a href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>",
+        "<a href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>",
+        "<a href = \"https://www.webmd.com/sleep-disorders/features/when-you-have-trouble-waking-up#1\">Trouble Waking Up from WebMD</a>");
+    $notenoughsleep = array("<a href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>",
+        "<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>",
+        "<a href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>",
+        "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>",
+        "<a href = \"https://www.webmd.com/sleep-disorders/features/sleep-hygiene#1\">How to Sleep Better from WebMD</a>",
+        "<a href = \"https://www.webmd.com/a-to-z-guides/discomfort-15/better-sleep/slideshow-sleep-tips\">Tips to Get Better Sleep from WebMD</a>");
     if ($issue === "sleepingproblems") {
-        return $sleepingproblems; 
+        return $sleepingproblems;
     } else {
-        return $notenoughsleep; 
+        return $notenoughsleep;
     }
 }
 ?>

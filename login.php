@@ -3,6 +3,7 @@ require_once 'support.php';
 session_start();
 
 $groupId = $_POST['groupId'];
+
 function userExists($email) {
     $query = "SELECT * FROM users WHERE email = '$email'";
     $result = connectAndQuery($query);

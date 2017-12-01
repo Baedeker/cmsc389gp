@@ -39,7 +39,7 @@ BODY;
             connectAndQuery($query);
     }
 
-    $query = "SELECT firstname,lastname ".
+    $query = "SELECT users.email,firstname,lastname,stars ".
     "FROM users ".
     "JOIN EMAIL_GROUP ".
     "ON users.email = EMAIL_GROUP.email ".
@@ -53,22 +53,68 @@ BODY;
             while ($recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $firstname = $recordArray['firstname'];
                 $lastname = $recordArray['lastname'];
+                $email = $recordArray['email'];
+                $stars = $recordArray['stars'];
 
                 $left.= <<<BODY
-
                     <div class="bg-3" style="border-style: solid;padding: 10px;width:100%">
-                        <h3 onclick="window.location.href='profilePage.php'">
-                            $firstname $lastname &#9733;&#9733;
-                        </h3><br/>
-                        <h4>Goal: Sleep</h4>
-                        <div class="progress" style="width:80%">
-                            <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
-                        </div>
-                        <br/>
-                        <form action="GroupPage.php" method="post">
-                            <div id = "$firstname$lastname" style = "max-height:100px;overflow:auto;">
-                                <text id = "personalmessage$firstname$lastname">
+                        <h3 onclick="window.location.href='profilePage.php?profilename=$firstname $lastname'">
+                            $firstname $lastname
 BODY;
+                for ($i = 0 ; $i < $stars; $i++) {
+                    $left.= <<<BODY
+                            &#9733;
+BODY;
+                }
+                $left.= <<<BODY
+                        </h3><br/>
+BODY;
+                 $query = "SELECT percentage,type ".
+                     "FROM progress ".
+                     "WHERE email='$email'";
+                     $result3 = connectAndQuery($query);
+                 if ($result3) {
+                    while ($recordArray = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
+                        $percentage = $recordArray['percentage']*100;
+                        $type = $recordArray['type'];
+                        if ($type == "general") {
+                            $left.= <<<BODY
+                                  <h4>General</h4>
+                                  <div class="progress" style="width:80%">
+BODY;
+                        }
+                        else {
+                            $left.= <<<BODY
+                                <h4>Goal: Sleep</h4>
+                                    <div class="progress" style="width:80%">
+BODY;
+                        }
+                        if ($percentage <= 20) {
+                            $left.= <<<BODY
+                                <div class="progress-bar bg-danger progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+
+                        }
+                        else {
+
+                            $left.= <<<BODY
+                                <div class="progress-bar bg-success progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+                        }
+                    }
+                }
+                $left.= <<<BODY
+                    <form action="GroupPage.php" method="post">
+                      <div id = "$firstname$lastname" style = "max-height:100px;overflow:auto;">
+                          <text id = "personalmessage$firstname$lastname">
+BODY;
+
                 $query = "SELECT sender,message,datetime ".
                     "FROM message ".
                     "WHERE recipient='$firstname$lastname'";

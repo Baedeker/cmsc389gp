@@ -1,32 +1,18 @@
 <?php
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-    require_once 'support.php';
-
-    session_start();
-
-    $currentuseremail = $_SESSION['email'];
-
-    $query = "SELECT * FROM users WHERE email='$currentuseremail'";
-    $result = connectAndQuery($query);
-
-    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";
-    $recentdate;
-    $recentsleep;
-
-    $left = <<<BODY
-=======
->>>>>>> Stashed changes
 require_once 'support.php';
 session_start();
 
-//$currentuseremail = "angalexli";
-//$currentuser = "Alex Li";
-//$profilename = "Jon Fan";
+// Static
+/*
+$currentuseremail = "jfan10";
+$currentuser = "Alex Li";
+$profilename = "Jon Fan";
 //$profileemail = "jfan10";
+$profileemail = $currentuseremail;
+$profilename = $currentuser;
+*/
 
+// Dynamic
 $profilename = $_SESSION['profilename'];
 $firstname = "";
 $lastname = "";
@@ -42,12 +28,7 @@ $result = connectAndQuery($query);
 $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";
 
-
 $left = <<<BODY
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
         <div class="container-fluid">
             <table class="table table-striped">
                 <thead>
@@ -66,86 +47,7 @@ $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $lef
 
 if ($currentuseremail === $profileemail) {
     $right = <<<BODY
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-    <div class="container-fluid">
-        <div class="row">
-            <h4>Log more entries!</h4>
-        </div>
-
-        <div class="row>
-            <div class="col-sm"></div>
-            
-            <div class="col-sm">
-            <form action= "{$_SERVER['PHP_SELF']}" method="post">
-                <div class="form-group">
-                    <label for="date">Today's Date (MM/DD/YY):</label> <input type="date" name="date" id="d" class="form-control">
-                </div>
-
-                <br>
-
-                <div class="form-row">
-                    <div class="col">
-                        <label for="timeinbedhours">Time In Bed:</label>
-                        <input type="number" name="timeinbedhours" id="tbh" placeholder="hrs" max="24"  class="form-control">
-    
-                    </div>
-
-                    <div class="col">    
-                        <label for="timeinbedminutes">&nbsp;</label>
-                        <input type="number" name="timeinbedminutes" id="tbm" max="60" placeholder="mins" class="form-control">
-                    </div>    
-
-                </div>    
-
-            <br>
-
-            <div class="form-row">
-
-                <div class="col">
-                    <label for="timefallasleephours">Time Falling Asleep:</label>
-                    <input type="number" name="timefallasleephours" id="tfh" max="24" placeholder="hrs" class="form-control">
-                </div>
-                
-                <div class="col">    
-                    <label for="timefallasleepminutes">&nbsp;</label>
-                    <input type="number" name="timefallasleepminutes" id="tfm" max="60" placeholder="mins" class="form-control">
-                </div>
-            </div>                    
-            
-            <br>
-
-            <div class="form-row">
-                <div class="col">
-                    <label for="timewakeuphours">Time Waking Up: </label>
-                    <input type="number" name="timewakeuphours" id="twh" max="24" placeholder="hrs" style="width: 40px" class="form-control">
-                </div>
-
-                <div class="col">
-                   <label for="timewakeupminutes">&nbsp;</label>
-                    <input type="number" name="timewakeupminutes" id="twm" max="60" placeholder="mins" style="width: 40px" class="form-control">
-                </div>
-            </div>        
-                    
-            <br>
-
-            <div class="form-group">
-                <label for="actualSleep">Actual Sleep:</label>
-                    <input type="float" name="actualsleep" id="st" step="0.01" class="form-control">
-                </label>
-            </div>            
-            <br>
-            <br>
-            <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="reset" name="reset">
-        </form>
-        </div>
-        <div class="col-sm"></div>
-    </div><br><br>
-=======
->>>>>>> Stashed changes
-        <div class="container-fluid">
+        <div class="container-fluid"><table><tr valign="TOP"><td>
             <h4>Log more entries!</h4>
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
                 Today's Date (MMDDYY): <input type="text" name="date" id="d" maxlength="6" minlength="6"><br>
@@ -159,12 +61,25 @@ if ($currentuseremail === $profileemail) {
                 <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="reset" name="reset">
             </form>
-        </div><br><br>
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 BODY;
+    $resources = <<<BODY
+        </td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>
+            <h4>Additional Resources</h4>
+            <form action= "{$_SERVER['PHP_SELF']}" method="post">
+                What kinds of resources would you like to view?<br>
+                <select id="rsc">
+                    <option value="sleepingproblems">Sleeping Problems</option>
+                    <option value="notenoughsleep">Not Enough Sleep</option>
+			    </select>			
+            </form>
+        </td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td id="rscinfo"></td>
+BODY;
+    $resourcesclosing = <<<BODY
+        </tr></table></div>
+BODY;
+
+
+
 } else {
     $right = "";
     $top = <<<BODY
@@ -211,7 +126,7 @@ if (isset($_POST['submit'])) {
  * and the other can be dedicated to resources.
  */
 
-$body = $topandleft . $right;
+$body = $topandleft . $right . $resources . $resourcesclosing;
 generatePage($body, 'Profile Page');
 
 function convertDate($date)
@@ -259,28 +174,6 @@ function convertDate($date)
             $converted_date .= "December ";
             break;
     }
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
-    function generateTable($currentuser, $currentuseremail, $left) {
-        $query = "SELECT date, timeinbed, timefallasleep, timewakeup, actualsleep ".
-            "FROM sleeplogs ".
-            "WHERE `email` = '$currentuseremail'";
-        $recentdate;
-
-        $result = connectAndQuery($query);
-            if (mysqli_num_rows($result)) {
-                while ($records = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    $recentdate = convertDate($records['date']);
-                    $recentsleep = $records['actualsleep'];
-                    $timewakeup = $records['timewakeup'];
-                    $timefallasleep = $records['timefallasleep'];
-                    $timeinbed = $records['timeinbed'];
-
-                    $left .= <<<BODY
-=======
->>>>>>> Stashed changes
     $converted_date .= $day;
     $converted_date .= ", 20";
     $converted_date .= $year;
@@ -303,10 +196,6 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
                 $timefallasleep = $records['timefallasleep'];
                 $timeinbed = $records['timeinbed'];
                 $left .= <<<BODY
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
                     <tr>
                         <td>$recentdate</td>
                         <td>$timeinbed</td>
@@ -324,26 +213,13 @@ BODY;
                     The last time you updated was: $recentdate<br><br>
                 </div>
 BODY;
-            $body = $top.$left;
-            return $body;
             } else {
                 $top = "";
             }
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-        
-        
-=======
->>>>>>> Stashed changes
 
         } else {
             $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
         }
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
     }
     $body = $top . $left;
     return $body;
@@ -403,5 +279,37 @@ BODY;
             }
         }
 
+    }
+
+    document.getElementById("rsc").onchange = function() {
+        let issue = document.getElementById("rsc").value;
+        let rscarray = getResourceTable(issue);
+        let code = "";
+        let i = 0;
+        while (i < rscarray.length) {
+            code += rscarray[i] + "<br>";
+            i++;
+        }
+        document.getElementById("rscinfo").innerHTML = code;
+    };
+
+    function getResourceTable(issue) {
+        //let basicformat = "<a href = \"URL\">TITLE</a>";
+        let sleepingproblems = ["<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>",
+            "<a href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>",
+            "<a href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>",
+            "<a href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>",
+            "<a href = \"https://www.webmd.com/sleep-disorders/features/when-you-have-trouble-waking-up#1\">Trouble Waking Up from WebMD</a>"];
+        let notenoughsleep = ["<a href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>",
+            "<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>",
+            "<a href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>",
+            "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>",
+            "<a href = \"https://www.webmd.com/a-to-z-guides/discomfort-15/better-sleep/slideshow-sleep-tips\">Tips to Get Better Sleep from WebMD</a>",
+            "<a href = \"https://www.webmd.com/sleep-disorders/features/sleep-hygiene#1\">How to Sleep Better from WebMD</a>"];
+        if (issue === "sleepingproblems") {
+            return sleepingproblems;
+        } else {
+            return notenoughsleep;
+        }
     }
 </script>

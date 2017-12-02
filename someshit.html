@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="someothershit.php" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="image" id="image" name="image" style="width:90px" value="">
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+</body>
+</html>
+<php>
+
+
+</php>
+<script>
+    document.getElementById("fileToUpload").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>

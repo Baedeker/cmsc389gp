@@ -47,13 +47,12 @@ BODY;
 $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $left);
 if ($currentuseremail === $profileemail) { // If the person is viewing their own profile...
     $right = <<<BODY
-    <div class="container-fluid"><table><tr><td>
-        <div class="row">
+    <div class="container-fluid">
+        <div class="row text-center">
             <h4>Log more entries!</h4>
         </div>
         <div class="row">
-            <div class="col-sm"></div>
-            <div class="col-sm">
+            <div class="col">
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
                 <div class="form-group">
                     <label for="date">Today's Date (MM/DD/YY):</label> <input type="date" name="date" id="d" class="form-control">
@@ -108,10 +107,10 @@ if ($currentuseremail === $profileemail) { // If the person is viewing their own
             <input type="reset" name="reset">
         </form>
         </div>
-        <div class="col-sm"></div></td>
+        
 BODY;
     $resources = <<<BODY
-        </td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>
+        <div class= "col">
             <h4>Additional Resources</h4>
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
                 What kinds of resources would you like to view?<br>
@@ -121,12 +120,10 @@ BODY;
                     <option value="notenoughsleep">Not Enough Sleep</option>
 			    </select>			
             </form>
-        </td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td id="rscinfo"></td>
+        </div></div>
 BODY;
-    $resourcesclosing = <<<BODY
-        </tr></table></div><br><br>
-BODY;
-    $right = $right . $resources . $resourcesclosing;
+
+    $right = $right . $resources;
 } else {
     $right = "";
 }
@@ -161,7 +158,7 @@ if (isset($_POST['submit'])) {
  * and the other can be dedicated to resources.
  */
 $body = $topandleft . $right;
-generatePage($body, 'Profile Page');
+generatePage($body, 'Profile Page','profileVerify.js');
 function convertDate($date)
 {
     $converted_date = "";

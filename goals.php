@@ -1,6 +1,10 @@
 <?php
     require_once 'support.php';
+
+    session_start();
+
     $email = $_POST['email'];
+    $_SESSION['email'] = $email;
     $bedtimeGoal = $_POST['bedtimeGoal'];
     $fallAsleepGoal = $_POST['fallAsleepGoal'];
     $troubleAwakeGoal = $_POST['troubleAwakeGoal'];

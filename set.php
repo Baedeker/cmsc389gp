@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="fallAsleep">How long does it usually take you to fall asleep?<em>(in minutes)</em>
+                        <label for="fallAsleep">How long does it usually take you to fall asleep? <em>(in minutes)</em>
                             <input type="text" class="form-control" id="fallAsleep" name="fallAsleep" value="5" style="width:50%"required>
                         </label>
                     </div>
@@ -63,14 +63,14 @@
                         </label>
                     </div>
 
-                
-                    <p>Been unable to sleep in 30 minutes</p> $within30
+                    <h3><b>How often have you:</b></h3>
+                    <p><b>Been unable to sleep in 30 minutes?</b></p> $within30
 
-                    <p>Wake up in the middle of the night?</p> $middleOfNight
+                    <p><b>Woken up in the middle of the night?</b></p> $middleOfNight
 
-                    <p>Have had trouble staying awake during your day to day life? </p> $troubleAwake
+                    <p><b>Had trouble staying awake during your day to day life?</b></p> $troubleAwake
 
-                    <p>How would you rate the overall quality of your sleep</p> $overall
+                    <p><b>How would you rate the overall quality of your sleep?</b></p> $overall
 
                     <input type="hidden" name="email" value='$email'/>
                     <br>
@@ -108,7 +108,7 @@ BODY;
             <form action="goals.php" method="post">
             	<div class="form-group">
                     <label for="bedtimeGoal">Currently, you are falling asleep at $bedtime. What time do you want to be
-                    falling asleep at?</label>
+                    falling asleep?</label>
                     <input type="time" name="bedtimeGoal" style="width:30%" class="form-control">
                 </div>    
                 

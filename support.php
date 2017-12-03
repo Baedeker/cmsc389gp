@@ -25,7 +25,7 @@ EOPAGE;
     echo $page;
 }
 function connectAndQuery($query){
-     $db_connection = new mysqli('localhost', 'dbuser', 'e5Y6f7xhNiiN3PCj', 'accountability');
+     $db_connection = new mysqli('localhost', 'dbuser', 'LA0tMJXDknO335Te', 'accountability');
     if ($db_connection->connect_error) {
         die($db_connection->connect_error);
     }

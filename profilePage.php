@@ -268,12 +268,12 @@ BODY;
         if (isNaN(sleeptime) || sleeptime < 0) {
             message += "Invalid sleep time submitted.\n";
         }
-        if (date.length !== 6) {
-            message += "Invalid date submitted.\n"
+        if (date.length !== 10) {
+            message += "Invalid date submitted.\n"+date;
         } else {
-            var month = date.substr(0, 2);
-            var day = date.substr(2, 2);
-            var year = date.substr(4);
+            var month = date.substr(5, 2);
+            var day = date.substr(8, 2);
+            var year = date.substr(0,4);
             if (isNaN(month) || isNaN(day) || isNaN(year)) {
                 message += "Invalid date submitted.\n";
             } else if (month > 12 || day > 31 || month < 0 || day < 0 || year < 0) {

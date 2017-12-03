@@ -53,7 +53,7 @@ function getBody($groupId)
 </div>
 <div class="container-fluid bg-2 text-center">
     <h3>Or Create Account</h3>
-    <form action="" method="post">
+    <form action="createAccount.php" method="post">
     <strong>First Name </strong><input type="text" name="firstName" required value=$firstName><br><br>
     <strong>Last Name </strong><input type="text" name="lastName" required value=$lastName><br><br>
      <strong>Email </strong><input type="email" name="email" required/><br><br>

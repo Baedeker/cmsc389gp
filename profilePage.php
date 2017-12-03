@@ -11,16 +11,16 @@ $profileemail = $currentuseremail;
 $profilename = $currentuser;
 */
 // Dynamic
-$profilename = $_SESSION['profilename'];
+$profilename = $_GET['profilename'];
 $firstname = "";
 $lastname = "";
 sscanf($profilename, "%s %s", $firstname, $lastname);
-$query = "SELECT * FROM users WHERE firstname=$firstname && lastname=$lastname";
+$query = "SELECT * FROM users WHERE firstname='$firstname' && lastname='$lastname'";
 $result = connectAndQuery($query);
 $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $profileemail = $temp['email'];
 $currentuseremail = $_SESSION['email'];
-$query = "SELECT * FROM users WHERE email=$currentuseremail";
+$query = "SELECT * FROM users WHERE email='$currentuseremail'";
 $result = connectAndQuery($query);
 $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $currentuser = "{$temp['firstname']}"." {$temp['lastname']}";

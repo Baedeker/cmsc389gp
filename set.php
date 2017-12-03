@@ -79,7 +79,7 @@
 
                 <input type="hidden" name="email" value='$email'/>
 
-                <p>
+            
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </div>
             </div>

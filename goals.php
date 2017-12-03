@@ -17,7 +17,11 @@
                 <form action="profilePage.php" method="post">
                     <input type="hidden" name="email" value="$email">
                     <button type="submit" name="fromGoals" class="btn btn-primary">To Profile Page</button>
-                    
+                </form>
+
+                <form action="GroupPage.php" method="post">
+                    <input type="hidden" name="email" value="$email">
+                    <button type="submit" name="fromGoals" class="btn btn-primary">To Group Page</button>
                 </form>    
             </div>
         </div>        

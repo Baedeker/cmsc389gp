@@ -107,8 +107,22 @@ if(isset($_POST["createAccount"])) {
         }
     }
 
+    function isInGroup($email, $groupId){
+        $query = "SELECT groupid FROM email_group WHERE email = '$email'";
+        $result = connectAndQuery($query);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $gId = $row["groupid"];
+            if($groupId === $gId) {
+                return true;
+            }
+        }else{
+            return false;
+        }
+    }
+
     $hashed = getPassword($email);
-    if($hashed != null && password_verify($password, $hashed)) {
+    if($hashed != null && password_verify($password, $hashed) && isInGroup($email, $groupId)) {
         session_start();
         $_SESSION["groupId"] = $groupId;
         $_SESSION["email"] = $email;

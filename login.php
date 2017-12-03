@@ -110,7 +110,7 @@ if(isset($_POST["createAccount"])) {
         session_start();
         $_SESSION["groupId"] = $groupId;
         $_SESSION["email"] = $email;
-        header("Location: profilePage.php");
+        header("Location: GroupPage.php");
     }else{
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;

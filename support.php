@@ -105,7 +105,7 @@ RET;
 }
 function generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBed, $within30, $middleOfNight, $troubleAwake, $overall){
     $toReturn = <<<RET
-    <div class="container">
+    <div class="container-fluid bg-1">
             <h3>Awesome! It will only go up from here! Here are the initial results you reported</h3>
             <div class="row align-items-center">
                 <div class="col">

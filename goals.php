@@ -1,7 +1,7 @@
 <?php
     require_once 'support.php';
-
-    session_start();
+echo "<link rel=\"stylesheet\" href=\"flexbox.css\">";
+session_start();
 
     $email = $_POST['email'];
     $_SESSION['email'] = $email;
@@ -22,20 +22,20 @@
 
 
     $body = <<<BODY
-        <div class="container">
-            <div class="row">
-                <h3>Awesome, your goals are all set! Let's head over to your customized
+        <div class="flex-container">
+            <div class="container-fluid bg-3 text-center">
+                <h3>Your goals are all set! Let's head over to your customized
                 profile page</h3>
-
+                <div class=container-fluid bg-3 text-center">
                 <form action="profilePage.php?profilename=$currentuser" method="post">
                     <input type="hidden" name="email" value="$email">
                     <button type="submit" name="fromGoals" class="btn btn-primary">To Profile Page</button>
                 </form>
-
                 <form action="GroupPage.php" method="post">
                     <input type="hidden" name="email" value="$email">
                     <button type="submit" name="fromGoals" class="btn btn-primary">To Group Page</button>
                 </form>    
+            </div>
             </div>
         </div>        
 BODY;

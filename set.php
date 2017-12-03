@@ -66,11 +66,11 @@
                 
                     <p>Been unable to sleep in 30 minutes</p> $within30
 
-                    <p> wake up in the middle of the night?</p> $middleOfNight
+                    <p>Wake up in the middle of the night?</p> $middleOfNight
 
-                    <p> have had trouble staying awake during your day to day life? </p> $troubleAwake
+                    <p>Have had trouble staying awake during your day to day life? </p> $troubleAwake
 
-                    <p>how would you rate the overall quality of your sleep</p> $overall
+                    <p>How would you rate the overall quality of your sleep</p> $overall
 
                     <input type="hidden" name="email" value='$email'/>
                     <br>
@@ -101,8 +101,10 @@ BODY;
         $translatedBedtime = translate($bedtime);
 
         $goals = <<<GOALS
+        <div class="container-fluid bg-3">
             <h2>Cool! Now we're ready to set goals for you!</h2>
-
+            </div>
+        <div class="container-fluid bg-1" >
             <form action="goals.php" method="post">
             	<div class="form-group">
                     <label for="bedtimeGoal">Currently, you are falling asleep at $bedtime. What time do you want to be
@@ -118,13 +120,14 @@ BODY;
 
                 <div class="form-group">
                     <label for="troubleAwakeGoal">Over the past month, you reported that you were tired in your day to day life
-                    $troubleAwake times. No one likes to be tired during the day but we have some ways to go.
+                    $troubleAwake. No one likes to be tired during the day but we have some ways to go.
                     How many days during the week would you ideally be tired during the day?</label>
                     <input type="text" name="troubleAwakeGoal">
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 <input type="hidden" value="$email" name="email">
             </form>
+            </div>
 
 GOALS;
 

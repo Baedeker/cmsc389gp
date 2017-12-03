@@ -110,6 +110,7 @@ BODY;
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
                 What kinds of resources would you like to view?<br>
                 <select id="rsc">
+                    <option value="choose">Choose An Option</option>
                     <option value="sleepingproblems">Sleeping Problems</option>
                     <option value="notenoughsleep">Not Enough Sleep</option>
 			    </select>			
@@ -325,6 +326,9 @@ BODY;
             "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>",
             "<a href = \"https://www.webmd.com/a-to-z-guides/discomfort-15/better-sleep/slideshow-sleep-tips\">Tips to Get Better Sleep from WebMD</a>",
             "<a href = \"https://www.webmd.com/sleep-disorders/features/sleep-hygiene#1\">How to Sleep Better from WebMD</a>"];
+        if (issue === "choose") {
+            return ""
+        }
         if (issue === "sleepingproblems") {
             return sleepingproblems;
         } else {

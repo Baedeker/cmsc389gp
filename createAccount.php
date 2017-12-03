@@ -8,7 +8,7 @@
     $body = <<<BODY
     <div class="page flex-container">
     <div class="container-fluid bg-2 text-center">
-        <h3>Choose what you and your friends would most like to improve on</h3>
+        <h3>Choose what you would most like to improve on</h3>
 </div>
 <div class="container-fluid bg-3 text-center">
         <form action="set.php" method="post">

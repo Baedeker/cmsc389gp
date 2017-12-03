@@ -31,15 +31,24 @@ function logout() {
         let message = document.getElementById("message"+name).value;
         if (message != "") {
             let datetime = getCurrentTime();
-            document.getElementById("personalmessage").value +=
-                "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
+            $.ajax({
+                url: "ajax_insert.php",
+                type: "post",
+                data: {query : "INSERT INTO `Message` (`message`, `sender`, `recipient`, `datetime`, `groupid`)"
                 + "VALUES ('"
                 + message + "','"
                 + currentuser + "','"
                 + name + "','"
                 + datetime + "','"
-                + groupid + "')";
+                + groupid + "')"}
+            });
+            document.getElementById("personalmessage"+currentuser).innerHTML =
+                currentuser+" <small>"+datetime+"</small><br/>"
+                +"<small>&emsp;"+message+"</small><br/>"+document.getElementById("personalmessage"+currentuser).innerHTML;
+            document.getElementById("message"+name).value = "";
         }
+
+
     }
 
     function getCurrentTime() {

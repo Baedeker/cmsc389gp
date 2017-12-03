@@ -60,7 +60,7 @@ form-check-input{
     padding-bottom: 2em;
 }
 
-.flexcontainer {
+.flex-container {
     background-color: #f7d08a;
     display: -webkit-flex;
     display: flex;

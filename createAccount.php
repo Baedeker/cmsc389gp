@@ -1,13 +1,11 @@
 <?php
-
     require_once 'support.php';
     $email = $_POST['email'];
-echo "
-    <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
-    <link rel=\"stylesheet\" href=\"createAccount.css\">";
+
+    echo "<link rel=\"stylesheet\" href=\"flexbox.css\">";
 
     $body = <<<BODY
-    <div class="page flexcontainer">
+    <div class="page flex-container">
     <div class="container-fluid bg-2 text-center">
         <h3>Choose what you and your friends would most like to improve on</h3>
 </div>

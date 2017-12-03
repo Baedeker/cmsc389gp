@@ -2,6 +2,8 @@
     require_once 'support.php';
     session_start();
 
+    echo "<link rel=\"stylesheet\" href=\"flexbox.css\">";
+
     class createGroup {
 
         function groupIdExists($id)
@@ -55,7 +57,7 @@ if(isset($_POST["create"])) {
         }
 
         $body = <<<BODY
-        <div class="flexcontainer">
+        <div class="flex-container">
         
         <div class="container-fluid bg-3 text-center header">
         <h1>Your Group ID is: </h1><br>
@@ -82,8 +84,7 @@ BODY;
     unset($_SESSION['lastName']);
     unset($_SESSION['groupName']);
         $body = <<<BODY
-        <div class="flexcontainer">
-
+        <div class="flex-container">
     <form action="createGroup.php" method="POST">
     <div class="container-fluid bg-4 text-center">
     <h1>First, create a personal account:</h1>

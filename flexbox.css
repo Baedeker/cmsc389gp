@@ -1,0 +1,13 @@
+.flex-container {
+    background-color: #f7d08a;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column; /* works with row or column */
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    align-items: stretch;
+    height: 100%;
+}

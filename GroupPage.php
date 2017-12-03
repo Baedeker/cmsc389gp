@@ -114,7 +114,7 @@ BODY;
 
                 $query = "SELECT sender,message,datetime ".
                     "FROM message ".
-                    "WHERE recipient='$firstname$lastname'";
+                    "WHERE recipient='$firstname$lastname' and groupid='$groupid'";
 
                 $chat = "";
                 $result2 = connectAndQuery($query);
@@ -156,7 +156,7 @@ BODY;
 BODY;
     $query = "SELECT sender,message,datetime ".
         "FROM message ".
-        "WHERE recipient='group'";
+        "WHERE recipient='group' and groupid='$groupid'";
 
     $chat = "";
     $result2 = connectAndQuery($query);

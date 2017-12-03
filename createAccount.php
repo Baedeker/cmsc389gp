@@ -1,6 +1,7 @@
 <?php
     require_once 'support.php';
-    $email = $_POST['email'];
+    session_start();
+    $email = $_SESSION['email'];
 
     echo "<link rel=\"stylesheet\" href=\"flexbox.css\">";
 

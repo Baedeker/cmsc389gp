@@ -88,7 +88,8 @@ if(isset($_POST["createAccount"])) {
         $_SESSION['lastName'] = $lastName;
         $_SESSION['groupName'] = $groupName;
         echo "<script type='text/javascript'>alert(\"Username already exists\");</script>";
-        echo getBody($groupId);
+        $body = getBody($groupId);
+        generatePage($body, 'Login');
     }
 
 }else if(isset($_POST["login"])) {
@@ -116,7 +117,8 @@ if(isset($_POST["createAccount"])) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         echo "<script type='text/javascript'>alert(\"Wrong username/password combination\")</script>";
-        echo getBody($groupId);
+        $body = getBody($groupId);
+        generatePage($body, 'Login');
     }
 }else if(!isset($_POST['groupId'])){
     header('Location: main.html');
@@ -132,7 +134,8 @@ if(isset($_POST["createAccount"])) {
         }
     }
     if(groupIdExists($groupId)) {
-        echo getBody($groupId);
+        $body = getBody($groupId);
+        generatePage($body, 'Login');
     }else{
         echo "<script type='text/javascript'>alert(\"Invalid Group ID\");window.location=\"main.html\";</script>";
     }

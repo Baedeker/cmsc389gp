@@ -300,17 +300,18 @@ BODY;
             }
         }
     }
-    document.getElementById("rsc").onchange = function() {
-        let issue = document.getElementById("rsc").value;
-        let rscarray = getResourceTable(issue);
-        let code = "";
-        let i = 0;
-        while (i < rscarray.length) {
-            code += rscarray[i] + "<br>";
-            i++;
-        }
-        document.getElementById("rscinfo").innerHTML = code;
-    };
+    if (document.getElementById("rsc") != null)
+        document.getElementById("rsc").onchange = function() {
+            let issue = document.getElementById("rsc").value;
+            let rscarray = getResourceTable(issue);
+            let code = "";
+            let i = 0;
+            while (i < rscarray.length) {
+                code += rscarray[i] + "<br>";
+                i++;
+            }
+            document.getElementById("rscinfo").innerHTML = code;
+        };
     function getResourceTable(issue) {
         //let basicformat = "<a href = \"URL\">TITLE</a>";
         let sleepingproblems = ["<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>",

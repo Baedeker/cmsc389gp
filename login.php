@@ -83,6 +83,7 @@ if(isset($_POST["createAccount"])) {
         connectAndQuery($query);
         $query = "INSERT INTO groupid_groupname (groupid, groupname) values ('$groupId', '$groupName');";
         connectAndQuery($query);
+        $_SESSION['groupId'] = $groupId;
         $_SESSION['email'] = $email;
         header("Location: createAccount.php");
     } else {

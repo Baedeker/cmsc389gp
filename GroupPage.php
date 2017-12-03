@@ -109,7 +109,7 @@ BODY;
                 $left.= <<<BODY
                     <form action="GroupPage.php" method="post">
                       <div id = "$firstname$lastname" style = "max-height:100px;overflow:auto;">
-                          <text id = "personalmessage$firstname$lastname">
+                          <text id = "personalmessage$firstname $lastname">
 BODY;
 
                 $query = "SELECT sender,message,datetime ".
@@ -136,7 +136,7 @@ BODY;
                             <input type="text" id="message$firstname$lastname" placeholder="enter message"/>
                             <input type="submit" id="sendPersonalMessage" value = "Send"
                                 onclick="clickSendPersonal('$firstname$lastname','$currentuser','$groupid');"/>
-                            <input type = "hidden" name = "personalmessage"
+                            <input type = "hidden" name = "personalmessage$firstname$lastname"
                                 id="personalmessage"/>
                         </form>
                     </div>

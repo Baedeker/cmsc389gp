@@ -23,7 +23,6 @@
     $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $groupname = $recordArray['groupname'];
 
-
     $top = <<<BODY
         <div class="container-fluid bg-2">
             <h1 align="center">$groupname ($groupid)</h1>
@@ -96,10 +95,8 @@ BODY;
                                 </div>
                                 <br/>
 BODY;
-
                         }
                         else {
-
                             $left.= <<<BODY
                                 <div class="progress-bar bg-success progress-bar-striped"
                                     style="width:$percentage%">$percentage%</div>
@@ -188,58 +185,10 @@ BODY;
         </div>
 BODY;
 
-
-
-
-//    $body = <<<BODY
-//        <div class="container-fluid">
-//                <h1 align="center">Group 1234</h1>
-//                <br/>
-//                <div class="row">
-//                    <div class="col-md-8">
-//                        <div style="border-style: solid;padding: 10px;width:70%">
-//                            <h3>Steven Liao &#9733;&#9733;</h3><br/>
-//                            <h4>Goal: Sleep</h4>
-//                            <div class="progress" style="width:80%">
-//                                <div class="progress-bar bg-success progress-bar-striped" style="width:70%">70%</div>
-//                            </div>
-//                            <br/>
-//                            Alex Li <small>11/15/17 4:00pm</small><br/>
-//                            <small>&emsp;good job!</small><br/>
-//                            <input type="text" id="message" placeholder="enter message"/>
-//                            <input type="button" id="sendMessage" value = "Send"/>
-//                        </div>
-//                        <br/>
-//                        <div style="border-style: solid;padding: 10px;width:70%">
-//                            <h3>Alex Li</h3><br/>
-//                            <h4>Goal: Sleep</h4>
-//                            <div class="progress" style="width:80%">
-//                                <div class="progress-bar bg-danger progress-bar-striped" style="width:20%">20%</div>
-//                            </div>
-//                            <br/>
-//                            <input type="text" id="message" placeholder="enter message"/>
-//                            <input type="button" id="sendMessage" value = "Send"/>
-//                        </div>
-//                    </div>
-//                    <div class="col-md-4">
-//                    <div style="border-style: solid">
-//                        <br> Group Chat</br>
-//                        Alex Li <small>11/15/17 4:00pm</small><br/>
-//                        <small>&emsp;good job!</small><br/>
-//                        </div>
-//                    </div>
-//                </div>
-//            </div>
-//BODY;
     $body = $top.$left.$right;
     generatePage($body, 'Group Page');
 ?>
 <script>
-    function scrollToBottom(id) {
-        alert(id);
-        let objDiv = document.getElementById(id);
-        objDiv.scrollTop = objDiv.scrollHeight;
-    }
     function logout() {
         request = $.ajax({
             url: "ajax_logout.php",

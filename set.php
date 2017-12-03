@@ -20,7 +20,7 @@
                 
                 <h4>
                     The following questionnaire draws from 
-                    <a href="http://uacc.arizona.edu/sites/default/files/psqi_sleep_questionnaire_1_pg.pdf">
+                    <a target="_blank" href="http://uacc.arizona.edu/sites/default/files/psqi_sleep_questionnaire_1_pg.pdf">
                     The Pittsburgh Sleep Quality Index</a></h4>
                 
                 </div>
@@ -31,35 +31,35 @@
 
             <div class="container-fluid bg-2">
                 <h3><b>During the past month,</b></h3>
-                <form action="{$_SERVER['PHP_SELF']}" method="post">
+                <form action="{$_SERVER['PHP_SELF']}" id="theForm" method="post">
 
                     <div class="form-group">
                         <label for="bedtime">When have you usually gone to bed?
-                        <input type="time" style="width:50%" class="form-control" value="13:00" name="bedtime"/>
+                        <input type="time" style="width:50%" class="form-control" value="13:00" name="bedtime" required/>
                         </label>
                     </div>
 
                     <div class="form-group">
                         <label for="fallAsleep">How long does it usually take you to fall asleep?<em>(in minutes)</em>
-                            <input type="text" class="form-control" name="fallAsleep" value="5" style="width:50%">
+                            <input type="text" class="form-control" id="fallAsleep" name="fallAsleep" value="5" style="width:50%"required>
                         </label>
                     </div>
 
                     <div class="form-group">
                         <label for="wakeUp">What time do you usually wake up in the morning?
-                            <input type="time" class="form-control" name="wakeup" value="07:00" style="width:50%">
+                            <input type="time" class="form-control" name="wakeup" value="07:00" style="width:50%"required>
                         </label>
                     </div>
                 
                     <div class="form-group">
                         <label for="actualSleep">How many hours of actual sleep do you usually get at night?
-                            <input type="text" class="form-control" name="actualSleep" value="5" style="width:50%">
+                            <input type="text" class="form-control" id="actualSleep" name="actualSleep" value="5" style="width:50%"required>
                         </label>
                     </div>
                 
                     <div class="form-group">
                         <label for="timeInBed">How many hours are you usually in bed for?
-                            <input type="text" class="form-control" name="timeInBed" value="5" style="width:50%">
+                            <input type="text" class="form-control" id="timeInBed" name="timeInBed" value="5" style="width:50%"required>
                         </label>
                     </div>
 

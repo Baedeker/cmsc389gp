@@ -11,7 +11,12 @@ $profileemail = $currentuseremail;
 $profilename = $currentuser;
 */
 // Dynamic
-$profilename = $_GET['profilename'];
+if(isset($_GET['profilename'])){
+    $profilename = $_GET['profilename'];
+}elseif(isset($_POST['profilename'])){
+    $profilename = $_POST['profilename'];
+}
+
 $firstname = "";
 $lastname = "";
 sscanf($profilename, "%s %s", $firstname, $lastname);
@@ -98,6 +103,7 @@ if ($currentuseremail === $profileemail) { // If the person is viewing their own
             </div>            
             <br>
             <br>
+            <input type="hidden" name="profilename" value='$profilename'>
             <input type="submit" name="submit" value="Submit Entry">&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="reset" name="reset">
         </form>

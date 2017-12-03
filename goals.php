@@ -16,7 +16,8 @@
 
                 <form action="profilePage.php" method="post">
                     <input type="hidden" name="email" value="$email">
-                    <input type="submit" name="fromGoals">
+                    <button type="submit" name="fromGoals" class="btn btn-primary">To Profile Page</button>
+                    
                 </form>    
             </div>
         </div>        

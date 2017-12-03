@@ -98,6 +98,8 @@ BODY;
 
         $body = generateResults($bedtime, $fallAsleep, $wakeup, $actualSleep, $timeInBed, $within30, $middleOfNight, $troubleAwake, $overall);
 
+        $translatedBedtime = translate($bedtime);
+
         $goals = <<<GOALS
             <h2>Cool! Now we're ready to set goals for you!</h2>
 
@@ -128,5 +130,9 @@ GOALS;
 
         $body.=$goals;
         generatePage($body, 'Results');
+    }
+
+    function translate($bedtime){
+
     }
 ?>

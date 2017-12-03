@@ -44,6 +44,10 @@ if(isset($_POST["create"])) {
         connectAndQuery($query);
         $query = "INSERT INTO groupid_groupname (groupid, groupname) values ('$groupId', '$groupName');";
         connectAndQuery($query);
+
+        $_SESSION['email'] = $email;
+        $_SESSION['groupId'] = $groupId;
+
     }else{
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
@@ -77,6 +81,7 @@ BODY;
     unset($_SESSION['firstName']);
     unset($_SESSION['lastName']);
     unset($_SESSION['groupName']);
+    unset($_SESSION['email']);
     $body = <<<BODY
         
         <div class="flex-container">

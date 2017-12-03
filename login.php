@@ -81,6 +81,8 @@ if(isset($_POST["createAccount"])) {
         connectAndQuery($query);
         $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
         connectAndQuery($query);
+        $query = "INSERT INTO groupid_groupname (groupid, groupname) values ('$groupId', '$groupName');";
+        connectAndQuery($query);
         $_SESSION['email'] = $email;
         header("Location: createAccount.php");
     } else {

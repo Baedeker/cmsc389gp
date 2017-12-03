@@ -22,7 +22,6 @@
     $result = connectAndQuery($query);
     $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $groupname = $recordArray['groupname'];
-    echo $recordArray[0];
 
     $top = <<<BODY
         <div class="container-fluid bg-2">

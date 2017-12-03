@@ -82,22 +82,25 @@ BODY;
     unset($_SESSION['lastName']);
     unset($_SESSION['groupName']);
         $body = <<<BODY
+        
         <div class="flexcontainer">
+        <form action="{$_SERVER['PHP_SELF']}" method="POST">
+            <div class="container-fluid bg-4 text-center">
+                <h1>First, create a personal account:</h1>
+            </div>
 
-    <form action="createGroup.php" method="POST">
-    <div class="container-fluid bg-4 text-center">
-    <h1>First, create a personal account:</h1>
-    </div>
-    <div class="container-fluid bg-3 text-center">
-        <strong>First Name </strong><input type="text" name="firstName" required value=$firstName><br><br>
-        <strong>Last Name </strong><input type="text" name="lastName" required value=$lastName><br><br>
-        <strong>Group Name </strong><input type="text" name="groupName" required value=$groupName><br><br>
-        <strong>Email </strong><input type="email" name="email" required/><br><br>
-        <strong>Create Password </strong><input type="password" name="password" required/><br><br>
-        <input type="submit" name="create" value="OK"/><br><br>
+            <div class="container-fluid bg-3 text-center">
+                <strong>First Name </strong><input type="text" name="firstName" required value=$firstName><br><br>
+                <strong>Last Name </strong><input type="text" name="lastName" required value=$lastName><br><br>
+                <strong>Group Name </strong><input type="text" name="groupName" required value=$groupName><br><br>
+                <strong>Email </strong><input type="email" name="email" required/><br><br>
+                <strong>Create Password </strong><input type="password" name="password" required/><br><br>
+                <input type="submit" name="create" value="OK"/><br><br>
         </div>
+
     </form>
-</div>
+    </div>
+
 BODY;
     generatePage($body, 'Sign Up');
     }

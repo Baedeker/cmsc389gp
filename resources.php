@@ -25,21 +25,28 @@ for($i = 1; $i < 3; $i++){
     }
 }
 
+function downloadResource($filename){
+    $query = "SELECT image FROM testblob WHERE image_name = 'file1.pdf'";
+    $result = connectAndQuery($query);
+    list($content) = mysqli_fetch_array($result);
+    header("Content-type: pdf");
+    header("Content-Disposition: attachment; filename=$filename");
+    echo $content;
+}
 
 if(isset($_POST['resourceOption'])) {
     $option = $_POST['resourceOption'];
     if ($option === "sleepingproblems") {
         echo "sleeping problems";
-        $query = "SELECT image FROM testblob WHERE image_name = 'file1.pdf'";
-        $result = connectAndQuery($query);
-//        $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
-//        $image = $recordArray['image'];
-//        echo '<img src="data:image/jpeg;base64,' . base64_encode($image) . '"/>';
-        list($content) = mysqli_fetch_array($result);
 
-        header("Content-type: pdf");
-        header("Content-Disposition: attachment; filename='file1.pdf'");
-        echo $content;
+        $resourceButtons = "hello";
+//        for($i = 1; 1 < 4; $i++){
+        $i = 1;
+            $name = "file".$i.'.pdf';
+            $resourceButtons.="<button onclick=\"downloadResource($name)\">Download Resource $i</button>";
+//        $resourceButtons.="<button onclick=\"history.go(-1);\">Back</button>";
+//        }
+        echo $resourceButtons;
 
     } else if ($option === "notenoughsleep") {
         echo "not enough sleep";
@@ -48,12 +55,6 @@ if(isset($_POST['resourceOption'])) {
     }
 }
 
-//$query = "SELECT image FROM testblob";
-//
-//$result = connectAndQuery($query);
-//$recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
-//$image = $recordArray['image'];
-//echo '<img src="data:image/jpeg;base64,'.base64_encode( $image ).'"/>';
 echo <<<BODY
     <button onclick="history.go(-1);">Back</button>
 BODY;

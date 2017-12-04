@@ -39,10 +39,10 @@ $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $lef
 if ($currentuseremail === $profileemail) { // If the person is viewing their own profile...
     $right = <<<BODY
     <div class="container-fluid">
-        <div class="row text-center">
+        <div class="row text-center container-fluid bg-3">
             <h4>Log more entries!</h4>
         </div>
-        <div class="row">
+        <div class="row container-fluid bg-2">
             <div class="col">
             <form action= "{$_SERVER['PHP_SELF']}" method="post">
                 <div class="form-group">
@@ -307,8 +307,10 @@ BODY;
             $left .= "</tbody></table></div><br>";
             if ($currentuseremail === $profileemail) {
                 $top = <<<BODY
-                <div class="container-fluid">
-                    <h1>Hey there, $profilename!</h1><br>
+                <div class="container-fluid bg-1">
+                <h1>Hey there, $profilename!</h1><br>
+                </div>
+                <div class="container-fluid bg-3">
                     The last time you updated was: $recentdate<br><br>
                 </div>
 BODY;

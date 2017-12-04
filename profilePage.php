@@ -397,13 +397,7 @@ BODY;
     $body = $top . $left;
     return $body;
 }
-function getFiles(){
-    $query = "SELECT image FROM testblob WHERE image_name = file1.pdf";
-    $result = connectAndQuery($query);
-    $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $image = $recordArray['image'];
-    echo '<img src="data:image/jpeg;base64,'.base64_encode( $image ).'"/>';
-}
+
 function getMetrics($profileemail) {
     $query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
     $result = connectAndQuery($query);

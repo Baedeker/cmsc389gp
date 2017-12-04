@@ -1,6 +1,9 @@
 <?php
 require_once 'support.php';
 
+$numSleepingProblems = 5;
+$numNotEnough = 5;
+
 function alreadyExists($name){
     $query = "SELECT * FROM testblob WHERE image_name = '$name'";
     $result = connectAndQuery($query);
@@ -11,8 +14,22 @@ function alreadyExists($name){
     }
 }
 
-for($i = 1; $i < 3; $i++){
-    $filename = 'file'.$i.'.pdf';
+for($i = 1; $i <= $numSleepingProblems; $i++){
+    $filename = 'sleepingProblems'.$i.'.pdf';
+    if(!alreadyExists($filename)) {
+        $imgData = file_get_contents($filename);
+        $image = addslashes($imgData);
+        $size = getimagesize($filename);
+
+        $query = "INSERT INTO testblob(image, image_name) "
+            . "VALUES('$image','$filename')";
+
+        $result = connectAndQuery($query);
+    }
+}
+
+for($i = 1; $i <= $numNotEnough; $i++){
+    $filename = 'notEnoughSleep'.$i.'.pdf';
     if(!alreadyExists($filename)) {
         $imgData = file_get_contents($filename);
         $image = addslashes($imgData);
@@ -35,7 +52,6 @@ function downloadResource($filename){
 }
 
 if(isset($_POST['download'])){
-    echo $_POST['filename'];
     $filename = $_POST['filename'];
     downloadResource($filename);
 }
@@ -45,17 +61,22 @@ if(isset($_POST['resourceOption'])) {
     if ($option === "sleepingproblems") {
         $resourceButtons = "";
         for($i = 1; $i < 4; $i++) {
-            $filename = "file" . $i . ".pdf";
+            $filename = "sleepingProblems" . $i . ".pdf";
             $value = "Download Resource " . $i;
             $resourceButtons .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
                 <input type='submit' name='download' value='$value'/></form>";
         }
         echo $resourceButtons;
-
     } else if ($option === "notenoughsleep") {
-        echo "not enough sleep";
+        $resourceButtons = "";
+        for($i = 1; $i < 4; $i++) {
+            $filename = "notEnoughSleep" . $i . ".pdf";
+            $value = "Download Resource " . $i;
+            $resourceButtons .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
+                <input type='submit' name='download' value='$value'/></form>";
+        }
     }else{
-        echo "choose an option";
+        echo "Go back and choose an option";
     }
 }
 

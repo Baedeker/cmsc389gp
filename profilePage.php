@@ -222,9 +222,9 @@ function calculateMinuteDifference($goal, $bedtime) {
 function convertDate($date)
 {
     $converted_date = "";
-    $month = (int)substr($date, 0, 2);
-    $day = substr($date, 2, 2);
-    $year = substr($date, 4);
+    $month = (int)substr($date, 5, 2);
+    $day = substr($date, 8);
+    $year = substr($date, 0,4);
     switch ($month) {
         case 1:
             $converted_date .= "January ";
@@ -264,7 +264,7 @@ function convertDate($date)
             break;
     }
     $converted_date .= $day;
-    $converted_date .= ", 20";
+    $converted_date .= ", ";
     $converted_date .= $year;
     return $converted_date;
 }

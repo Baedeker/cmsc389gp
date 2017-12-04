@@ -103,22 +103,20 @@ BODY;
     $resources = <<<BODY
         <div class= "col">
             <h4>Additional Resources</h4>
-            What kinds of resources would you like to view?<br>
-            <select id="rsc">
-                <option value="choose">Choose An Option</option>
-                <option value="sleepingproblems">Sleeping Problems</option>
-                <option value="notenoughsleep">Not Enough Sleep</option>
-            </select>
-            <br/>
-            <text id="rscinfo">
+            <form action= "{$_SERVER['PHP_SELF']}" method="post">
+                What kinds of resources would you like to view?<br>
+                <select id="rsc">
+                    <option value="choose">Choose An Option</option>
+                    <option value="sleepingproblems">Sleeping Problems</option>
+                    <option value="notenoughsleep">Not Enough Sleep</option>
+			    </select>			
+            </form>
         </div></div>
 BODY;
-
     $right = $right . $resources;
 } else {
     $right = "";
 }
-
 if (isset($_POST['submit'])) {
     $date = $_POST['date'];
     $actualsleep = $_POST['actualsleep'];
@@ -140,18 +138,17 @@ if (isset($_POST['submit'])) {
     } else {
         $right .= "Submission failed.<br><br>";
     }
-    
+
     $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='general'"; // pulling general percentage
     $result = connectAndQuery($query);
     $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $currentGeneralPercent = $temp['percentage'];
-
     $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='sleep'"; // pulling sleep percentage
     $result = connectAndQuery($query);
     $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $currentSleepPercent = $temp['percentage'];
-
     $query = "SELECT * FROM Goals WHERE email='$profileemail'"; // pulling goals
+    $result = connectAndQUery($query);
     $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $bedtimeGoal = $temp['bedtimeGoal'];
     $fallAsleepGoal = $temp['fallAsleepGoal'];
@@ -159,26 +156,21 @@ if (isset($_POST['submit'])) {
 
     $sleepprogressmod = 0;
     $diff = calculateMinuteDifference($bedtimeGoal, $timeib);
-    if ($diff > 120) {
-        $sleepprogressmod += 0;
-    } else if ($diff > 60) {
+    if ($diff > 60) {
         $sleepprogressmod += 0.03;
     } else {
         $sleepprogressmod += 0.06;
     }
-    $diff = 60*($timefallsleephours - $timeinbedhours) + ($timefallasleepminutes - $timeinbedminutes);
-    if ($diff > 60) {
-
-    } else if ($diff > 30) {
-        $sleepprogress += 0.02;
+    $diff = 60*($timefallasleephours - $timeinbedhours) + ($timefallasleepminutes - $timeinbedminutes);
+    if ($diff > 30) {
+        $sleepprogressmod += 0.02;
     } else {
-        $sleepprogress += 0.04;
+        $sleepprogressmod += 0.04;
     }
     $generalprogressmod = 0.10;
     $currentGeneralPercent += $generalprogressmod;
     $currentSleepPercent += $sleepprogressmod;
-
-    if ($currentGeneralPercent > 1) { // updating stars if general percent is over 100%
+    if ($currentGeneralPercent >= 1) { // updating stars if general percent is over 100%
         $currentGeneralPercent -= 1;
         $query = "SELECT * FROM users WHERE email='$profileemail'";
         connectAndQuery($query);
@@ -188,7 +180,7 @@ if (isset($_POST['submit'])) {
         $query = "UPDATE users SET stars = '$stars' WHERE email='$profileemail'";
         connectAndQuery($query);
     }
-    if ($currentSleepPercent > 1) { // updating stars if sleep percent is over 100%
+    if ($currentSleepPercent >= 1) { // updating stars if sleep percent is over 100%
         $currentSleepPercent -= 1;
         $query = "SELECT * FROM users WHERE email='$profileemail'";
         connectAndQuery($query);
@@ -198,13 +190,11 @@ if (isset($_POST['submit'])) {
         $query = "UPDATE users SET stars = '$stars' WHERE email='$profileemail'";
         connectAndQuery($query);
     }
-
     $query = "UPDATE Progress SET percentage = '$currentGeneralPercent' WHERE email='$profileemail' && type='general'"; // pushing general percentage
     $result = connectAndQuery($query);
-
     $query = "UPDATE Progress SET percentage = '$currentSleepPercent' WHERE email='$profileemail' && type='sleep'"; // pushing sleep percentage
-    $result = connectAndQuery($query);	
-    
+    $result = connectAndQuery($query);
+
     $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $left);
     unset($_POST['submit']);
 }
@@ -222,7 +212,7 @@ function calculateMinuteDifference($goal, $bedtime) {
     $bedhours = 0;
     $bedminutes = 0;
     sscanf($goal, "%d:%d %s", $goalhours, $goalminutes, $g);
-    if (g === "PM") {
+    if ($g === "PM") {
         $goalhours += 12;
     }
     sscanf($bedtime, "%d:%d", $bedhours, $bedminutes);

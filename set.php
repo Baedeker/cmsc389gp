@@ -88,10 +88,22 @@ BODY;
         $wakeup = $_POST['wakeup'];
         $actualSleep = $_POST['actualSleep'];
         $timeInBed = $_POST['timeInBed'];
-        $within30 = $_POST['within30'];
-        $middleOfNight = $_POST['middleOfNight'];
-        $troubleAwake = $_POST['troubleAwake'];
-        $overall = $_POST['overall'];
+        $within30 = strtolower($_POST['within30']);
+        $middleOfNight = strtolower($_POST['middleOfNight']);
+        $troubleAwake = strtolower($_POST['troubleAwake']);
+        $overall = strtolower($_POST['overall']);
+
+        function getNewResponse($response){
+            if($response === "not during the past month"){
+                return "0 times";
+            }
+            return $response;
+        }
+
+        $within30 = getNewResponse($within30);
+        $middleOfNight = getNewResponse($middleOfNight);
+        $troubleAwake = getNewResponse($troubleAwake);
+        $overall = getNewResponse($overall);
 
         $query = "INSERT INTO SleepData values ('$email','$bedtime', '$fallAsleep', '$wakeup', '$actualSleep', '$timeInBed','$within30','$middleOfNight','$troubleAwake','$overall');";
         connectAndQuery($query);
@@ -121,7 +133,7 @@ BODY;
                 <div class="form-group">
                     <label for="troubleAwakeGoal">Over the past month, you reported that you were tired in your day to day life
                     $troubleAwake. No one likes to be tired during the day but we have some ways to go.
-                    How many days during the week would you ideally be tired during the day?</label>
+                    How many days a week would you like to reduce being tired to?</label>
                     <input type="text" name="troubleAwakeGoal">
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>

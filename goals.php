@@ -40,6 +40,6 @@ session_start();
         </div>        
 BODY;
 
-    generatePage($body, 'GOALS');
+    generatePage($body, 'Goals');
 
 ?>

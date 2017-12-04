@@ -74,27 +74,27 @@ RET;
         $toReturn = <<<RET
         <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="$name"  checked="checked" value="Not during the past month">
+                        <input class="form-check-input" type="radio" name="$name"  checked="checked" value="Very Good">
                         Very Good
                     </label>
                 </div>
                <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="$name"  value="Less than once a week">
+                        <input class="form-check-input" type="radio" name="$name"  value="Fairly Good">
                         Fairly Good
                     </label>
                 </div>                     
                 
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="$name"  value="Once or twice a week">
+                        <input class="form-check-input" type="radio" name="$name"  value="Fairly bad">
                         Fairly bad
                     </label>
                 </div>
                 
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="$name"  value="Three or more times a week">
+                        <input class="form-check-input" type="radio" name="$name"  value="Very bad">
                         Very bad
                     </label>
                 </div>

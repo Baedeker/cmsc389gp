@@ -40,7 +40,7 @@ if(isset($_POST["create"])) {
     if(!createGroup::userExists($email)) {
         $query = "INSERT INTO users (email, password, firstname, lastname) values ('$email', '$hashedPassword', '$firstName', '$lastName');";
         connectAndQuery($query);
-        $query = "INSERT INTO email_group (email, groupid) values ('$email', '$groupId' );";
+        $query = "INSERT INTO email_group (email, groupid, groupname) values ('$email', '$groupId', '$groupName');";
         connectAndQuery($query);
         $query = "INSERT INTO groupid_groupname (groupid, groupname) values ('$groupId', '$groupName');";
         connectAndQuery($query);

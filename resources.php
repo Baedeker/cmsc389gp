@@ -25,15 +25,21 @@ for($i = 1; $i < 3; $i++){
     }
 }
 
+
 if(isset($_POST['resourceOption'])) {
     $option = $_POST['resourceOption'];
     if ($option === "sleepingproblems") {
         echo "sleeping problems";
         $query = "SELECT image FROM testblob WHERE image_name = 'file1.pdf'";
         $result = connectAndQuery($query);
-        $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $image = $recordArray['image'];
-        echo '<img src="data:image/jpeg;base64,' . base64_encode($image) . '"/>';
+//        $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+//        $image = $recordArray['image'];
+//        echo '<img src="data:image/jpeg;base64,' . base64_encode($image) . '"/>';
+        list($content) = mysqli_fetch_array($result);
+
+        header("Content-type: pdf");
+        header("Content-Disposition: attachment; filename='file1.pdf'");
+        echo $content;
 
     } else if ($option === "notenoughsleep") {
         echo "not enough sleep";

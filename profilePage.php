@@ -1,15 +1,6 @@
 <?php
 require_once 'support.php';
 session_start();
-// Static
-/*
-$currentuseremail = "jfan10";
-$currentuser = "Alex Li";
-$profilename = "Jon Fan";
-//$profileemail = "jfan10";
-$profileemail = $currentuseremail;
-$profilename = $currentuser;
-*/
 // Dynamic
 if(isset($_GET['profilename'])){
     $profilename = $_GET['profilename'];
@@ -145,10 +136,75 @@ if (isset($_POST['submit'])) {
     $result = connectAndQuery($sql);
     if ($result) {
         $right .= "Successfully added!<br>";
-        $right .= "Please refresh the page to see any new updates that you've submitted.<br><br>";
+        //$right .= "Please refresh the page to see any new updates that you've submitted.<br><br>";
     } else {
         $right .= "Submission failed.<br><br>";
     }
+    
+    $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='general'"; // pulling general percentage
+    $result = connectAndQuery($query);
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $currentGeneralPercent = $temp['percentage'];
+
+    $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='sleep'"; // pulling sleep percentage
+    $result = connectAndQuery($query);
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $currentSleepPercent = $temp['percentage'];
+
+    $query = "SELECT * FROM Goals WHERE email='$profileemail'"; // pulling goals
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $bedtimeGoal = $temp['bedtimeGoal'];
+    $fallAsleepGoal = $temp['fallAsleepGoal'];
+    $troubleAwakeGoal = $temp['troubleAwakeGoal'];
+
+    $sleepprogressmod = 0;
+    $diff = calculateMinuteDifference($bedtimeGoal, $timeib);
+    if ($diff > 120) {
+        $sleepprogressmod += 0;
+    } else if ($diff > 60) {
+        $sleepprogressmod += 0.03;
+    } else {
+        $sleepprogressmod += 0.06;
+    }
+    $diff = 60*($timefallsleephours - $timeinbedhours) + ($timefallasleepminutes - $timeinbedminutes);
+    if ($diff > 60) {
+
+    } else if ($diff > 30) {
+        $sleepprogress += 0.02;
+    } else {
+        $sleepprogress += 0.04;
+    }
+    $generalprogressmod = 0.10;
+    $currentGeneralPercent += $generalprogressmod;
+    $currentSleepPercent += $sleepprogressmod;
+
+    if ($currentGeneralPercent > 1) { // updating stars if general percent is over 100%
+        $currentGeneralPercent -= 1;
+        $query = "SELECT * FROM users WHERE email='$profileemail'";
+        connectAndQuery($query);
+        $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $stars = $temp['stars'];
+        $stars++;
+        $query = "UPDATE users SET stars = '$stars' WHERE email='$profileemail'";
+        connectAndQuery($query);
+    }
+    if ($currentSleepPercent > 1) { // updating stars if sleep percent is over 100%
+        $currentSleepPercent -= 1;
+        $query = "SELECT * FROM users WHERE email='$profileemail'";
+        connectAndQuery($query);
+        $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $stars = $temp['stars'];
+        $stars++;
+        $query = "UPDATE users SET stars = '$stars' WHERE email='$profileemail'";
+        connectAndQuery($query);
+    }
+
+    $query = "UPDATE Progress SET percentage = '$currentGeneralPercent' WHERE email='$profileemail' && type='general'"; // pushing general percentage
+    $result = connectAndQuery($query);
+
+    $query = "UPDATE Progress SET percentage = '$currentSleepPercent' WHERE email='$profileemail' && type='sleep'"; // pushing sleep percentage
+    $result = connectAndQuery($query);	
+    
     $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $left);
     unset($_POST['submit']);
 }
@@ -159,6 +215,20 @@ if (isset($_POST['submit'])) {
  */
 $body = $topandleft . $right;
 generatePage($body, 'Profile Page','profileVerify.js');
+function calculateMinuteDifference($goal, $bedtime) {
+    $goalhours = 0;
+    $goalminutes = 0;
+    $g = null;
+    $bedhours = 0;
+    $bedminutes = 0;
+    sscanf($goal, "%d:%d %s", $goalhours, $goalminutes, $g);
+    if (g === "PM") {
+        $goalhours += 12;
+    }
+    sscanf($bedtime, "%d:%d", $bedhours, $bedminutes);
+    $difference = 60*($bedhours - $goalhours) + ($bedminutes - $goalminutes);
+    return $difference;
+}
 function convertDate($date)
 {
     $converted_date = "";

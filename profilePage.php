@@ -1,15 +1,6 @@
 <?php
 require_once 'support.php';
 session_start();
-// Static
-/*
-$currentuseremail = "jfan10";
-$currentuser = "Alex Li";
-$profilename = "Jon Fan";
-//$profileemail = "jfan10";
-$profileemail = $currentuseremail;
-$profilename = $currentuser;
-*/
 // Dynamic
 if(isset($_GET['profilename'])){
     $profilename = $_GET['profilename'];

@@ -309,7 +309,7 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
                     </tr>
 BODY;
             }
-		$query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
+	    $query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
             connectAndQuery($query);
             $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $stars = $temp['stars'];
@@ -366,7 +366,7 @@ BODY;
                 <form action="GroupPage.php" method="post">
                 	<input type="submit" name="goToGroup" value="Group Page">
                 </form>
-                </div>
+                </div><div class="container-fluid bg-1">
 BODY;
 		$topend = <<<BODY
 		<div class="container-fluid bg-3">
@@ -381,7 +381,7 @@ BODY;
                 <form action="GroupPage.php" method="post">
                 	<input type="submit" name="goToGroup" value="Group Page">
                 </form>
-                </div>
+                </div><div class="container-fluid bg-1">
 BODY;
 		$topend = <<<BODY
 		<div class="container-fluid bg-3">

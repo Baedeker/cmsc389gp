@@ -1,8 +1,10 @@
 <?php
 require_once 'support.php';
 
-$numSleepingProblems = 5;
-$numNotEnough = 5;
+echo "<link rel=\"stylesheet\" href=\"flexbox.css\">";
+
+$numSleepingProblems = 3;
+$numNotEnough = 3;
 
 function alreadyExists($name){
     $query = "SELECT * FROM testblob WHERE image_name = '$name'";
@@ -56,31 +58,38 @@ if(isset($_POST['download'])){
     downloadResource($filename);
 }
 
+$body = "";
+
 if(isset($_POST['resourceOption'])) {
     $option = $_POST['resourceOption'];
     if ($option === "sleepingproblems") {
-        $resourceButtons = "";
+        $body.="</div><div class='container-fluid bg-3 text-center'>";
         for($i = 1; $i < 4; $i++) {
             $filename = "sleepingProblems" . $i . ".pdf";
             $value = "Download Resource " . $i;
-            $resourceButtons .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
+            $body .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
                 <input type='submit' name='download' value='$value'/></form>";
         }
-        echo $resourceButtons;
+        $body.="<button onclick=\"history.go(-1);\">Back</button></div>";
     } else if ($option === "notenoughsleep") {
-        $resourceButtons = "";
+        $body.="<div class='container-fluid bg-3 text-center'>";
         for($i = 1; $i < 4; $i++) {
             $filename = "notEnoughSleep" . $i . ".pdf";
             $value = "Download Resource " . $i;
-            $resourceButtons .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
+            $body.="<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
                 <input type='submit' name='download' value='$value'/></form>";
         }
+        $body.="<button onclick=\"history.go(-1);\">Back</button></div>";
     }else{
-        echo "Go back and choose an option";
+        $body.=<<<BODY
+            <div class='container-fluid bg-3 text-center'>
+            <h3>Go back and choose an option</h3><br>
+            <button onclick="history.go(-1);">Back</button>
+            </div>
+BODY;
     }
 }
 
-echo <<<BODY
-    <button onclick="history.go(-1);">Back</button>
-BODY;
+generatePage($body, 'Resources');
+
 ?>

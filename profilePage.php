@@ -110,7 +110,7 @@ BODY;
                     <option value="sleepingproblems">Sleeping Problems</option>
                     <option value="notenoughsleep">Not Enough Sleep</option>
                 </select><br><br>
-                <input type="submit" name="displayResources" value="See Resources"/>
+                <input type="submit" name="downloadResources" value="Download Resources"/><br>
                 </form>
                 <text id="rscinfo">
             </div></div>

@@ -77,11 +77,11 @@ if ($currentuseremail === $profileemail) { // If the person is viewing their own
             <div class="form-row">
                 <div class="col">
                     <label for="timewakeuphours">Time Waking Up: </label>
-                    <input type="number" name="timewakeuphours" id="twh" max="24" placeholder="hrs" style="width: 40px" class="form-control">
+                    <input type="number" name="timewakeuphours" id="twh" max="24" placeholder="hrs" class="form-control">
                 </div>
                 <div class="col">
                    <label for="timewakeupminutes">&nbsp;</label>
-                    <input type="number" name="timewakeupminutes" id="twm" max="60" placeholder="mins" style="width: 40px" class="form-control">
+                    <input type="number" name="timewakeupminutes" id="twm" max="60" placeholder="mins" class="form-control">
                 </div>
             </div>        
                     
@@ -409,17 +409,17 @@ BODY;
         };
     function getResourceTable(issue) {
         //let basicformat = "<a href = \"URL\">TITLE</a>";
-        let sleepingproblems = ["<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>",
-            "<a href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>",
-            "<a href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>",
-            "<a href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>",
-            "<a href = \"https://www.webmd.com/sleep-disorders/features/when-you-have-trouble-waking-up#1\">Trouble Waking Up from WebMD</a>"];
-        let notenoughsleep = ["<a href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>",
-            "<a href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>",
-            "<a href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>",
-            "<a href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>",
-            "<a href = \"https://www.webmd.com/a-to-z-guides/discomfort-15/better-sleep/slideshow-sleep-tips\">Tips to Get Better Sleep from WebMD</a>",
-            "<a href = \"https://www.webmd.com/sleep-disorders/features/sleep-hygiene#1\">How to Sleep Better from WebMD</a>"];
+        let sleepingproblems = ["<a target=\"_blank\" href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-causes-snoring.html\">Snoring and Sleep Apnea from ResMed</a>",
+            "<a target=\"_blank\" href = \"https://www.trihealth.com/dailyhealthwire/wellness-and-fitness/How-to-Fix-Common-Sleep-Problems.aspx\">Common Sleeping Solutions from DailyHealthWire</a>",
+            "<a target=\"_blank\" href = \"https://articles.mercola.com/sites/articles/archive/2017/06/01/tips-tricks-to-address-common-sleep-problems.aspx\">Tips to Address Common Sleeping Problems from Mercola</a>",
+            "<a target=\"_blank\" href = \"https://www.helpguide.org/articles/sleep/sleep-disorders-and-problems.htm\">Resources to Treat Sleeping Disorders from HelpGuide</a>",
+            "<a target=\"_blank\" href = \"https://www.webmd.com/sleep-disorders/features/when-you-have-trouble-waking-up#1\">Trouble Waking Up from WebMD</a>"];
+        let notenoughsleep = ["<a target=\"_blank\" href = \"https://www.tuck.com/sleep-resources/\">General Resources from TUCK: Advancing Better Sleep</a>",
+            "<a target=\"_blank\" href = \"https://www.resmed.com/us/en/consumer/diagnosis-and-treatment/healthy-sleep/what-happens-during-sleep.html\">Importance of Sleep from ResMed</a>",
+            "<a target=\"_blank\" href = \"https://medical.mit.edu/community/sleep/resources\">Tips to Improve Sleep from MIT Medical</a>",
+            "<a target=\"_blank\" href = \"http://www.sleepeducation.org/\">Sleep Education from AASM</a>",
+            "<a target=\"_blank\" href = \"https://www.webmd.com/a-to-z-guides/discomfort-15/better-sleep/slideshow-sleep-tips\">Tips to Get Better Sleep from WebMD</a>",
+            "<a target=\"_blank\" href = \"https://www.webmd.com/sleep-disorders/features/sleep-hygiene#1\">How to Sleep Better from WebMD</a>"];
         if (issue === "choose") {
             return ""
         }

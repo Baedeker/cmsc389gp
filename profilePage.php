@@ -151,12 +151,6 @@ if (isset($_POST['submit'])) {
     $sql = sprintf("INSERT INTO sleeplogs (id, email, date, timeinbed, timefallasleep, timewakeup, actualsleep) values ('%s', '%s', '%s', '%s', '%s', '%s', '%d')",
         NULL, $profileemail, $date, $timeib, $timefa, $timewu, $actualsleep);
     $result = connectAndQuery($sql);
-    if ($result) {
-        $right .= "Successfully added!<br>";
-        //$right .= "Please refresh the page to see any new updates that you've submitted.<br><br>";
-    } else {
-        $right .= "Submission failed.<br><br>";
-    }
 
     $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='general'"; // pulling general percentage
     $result = connectAndQuery($query);
@@ -315,29 +309,88 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
                     </tr>
 BODY;
             }
+		$query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
+            connectAndQuery($query);
+            $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $stars = $temp['stars'];
+
+            $metrics = "";
+            for ($i = 0 ; $i < $stars; $i++) {
+                $metrics .= <<<BODY
+                    &#9733;
+BODY;
+            }
+            $query = "SELECT percentage,type ".
+                "FROM progress ".
+                "WHERE email='$profileemail'";
+            $result3 = connectAndQuery($query);
+            if ($result3) {
+                while ($recordArray = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
+                    $percentage = $recordArray['percentage'] * 100;
+                    $type = $recordArray['type'];
+                    if ($type == "general") {
+                        $metrics .= <<<BODY
+                                  <h4>General</h4>
+                                  <div class="progress" style="width:80%">
+BODY;
+                    } else {
+                        $metrics .= <<<BODY
+                                <h4>Goal: Sleep</h4>
+                                    <div class="progress" style="width:80%">
+BODY;
+                    }
+                    if ($percentage <= 20) {
+                        $metrics .= <<<BODY
+                                <div class="progress-bar bg-danger progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+                    } else {
+                        $metrics .= <<<BODY
+                                <div class="progress-bar bg-success progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+                    }
+                }
+            }
+            $metrics .= "</div>";
+		
             $left .= "</tbody></table></div><br>";
             if ($currentuseremail === $profileemail) {
                 $top = <<<BODY
                 <div class="container-fluid bg-1">
                 <h1>Hey there, $profilename!</h1><br>
                 <form action="GroupPage.php" method="post">
-                <input type="submit" name="goToGroup" value="Group Page">
+                	<input type="submit" name="goToGroup" value="Group Page">
                 </form>
                 </div>
-                <div class="container-fluid bg-3">
+BODY;
+		$topend = <<<BODY
+		<div class="container-fluid bg-3">
                     The last time you updated was: $recentdate<br><br>
                 </div>
 BODY;
-            }
-        } else {
-            $top = <<<BODY
-	    <div class="container-fluid bg-1">
+		$top = $top . $metrics . $topend; 
+            } else {
+	    	$top = <<<BODY
+                <div class="container-fluid bg-1">
                 <h1>Hey there!</h1><br>
-            </div>
-            <div class="container-fluid bg-3">
-                The last time $profilename updated was: $recentdate.<br><br>
-            </div>
+                <form action="GroupPage.php" method="post">
+                	<input type="submit" name="goToGroup" value="Group Page">
+                </form>
+                </div>
 BODY;
+		$topend = <<<BODY
+		<div class="container-fluid bg-3">
+                    The last time $profilename updated was: $recentdate<br><br>
+                </div>
+BODY;
+		$top = $top . $metrics . $topend; 
+	    }
+        } else {
             $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
         }
     }

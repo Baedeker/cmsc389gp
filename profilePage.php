@@ -267,7 +267,9 @@ function convertDate($date)
     $converted_date .= ", ";
     $converted_date .= $year;
     return $converted_date;
+
 }
+
 function generateTable($profilename, $profileemail, $currentuseremail, $left)
 {
     $top = "";
@@ -299,6 +301,9 @@ BODY;
                 $top = <<<BODY
                 <div class="container-fluid bg-1">
                 <h1>Hey there, $profilename!</h1><br>
+                <form action="GroupPage.php" method="post">
+                <input type="submit" name="goToGroup" value="Group Page">
+                </form>
                 </div>
                 <div class="container-fluid bg-3">
                     The last time you updated was: $recentdate<br><br>
@@ -322,47 +327,49 @@ BODY;
 <script>
     window.onsubmit = validateData;
     function validateData() {
-        var message = "";
-        var date = document.getElementById("d").value;
-        var sleeptime = document.getElementById("st").value;
-        var tfhours = document.getElementById("tfh").value;
-        var tfminutes = document.getElementById("tfm").value;
-        var tbhours = document.getElementById("tbh").value;
-        var tbminutes = document.getElementById("tbm").value;
-        var twhours = document.getElementById("twh").value;
-        var twminutes = document.getElementById("twm").value;
-        if (isNaN(sleeptime) || sleeptime < 0) {
-            message += "Invalid sleep time submitted.\n";
-        }
-        if (date.length !== 10) {
-            message += "Invalid date submitted.\n"+date;
-        } else {
-            var month = date.substr(5, 2);
-            var day = date.substr(8, 2);
-            var year = date.substr(0,4);
-            if (isNaN(month) || isNaN(day) || isNaN(year)) {
-                message += "Invalid date submitted.\n";
-            } else if (month > 12 || day > 31 || month < 0 || day < 0 || year < 0) {
-                message += "Invalid date submitted.\n";
-            } else {
-                // Some further checks are needed for specific months.
+        if(!isset($POST['goToGroup'])) {
+            var message = "";
+            var date = document.getElementById("d").value;
+            var sleeptime = document.getElementById("st").value;
+            var tfhours = document.getElementById("tfh").value;
+            var tfminutes = document.getElementById("tfm").value;
+            var tbhours = document.getElementById("tbh").value;
+            var tbminutes = document.getElementById("tbm").value;
+            var twhours = document.getElementById("twh").value;
+            var twminutes = document.getElementById("twm").value;
+            if (isNaN(sleeptime) || sleeptime < 0) {
+                message += "Invalid sleep time submitted.\n";
             }
-        }
-        if (isNaN(tfhours) || isNaN(tfminutes) || tfhours < 0 || tfminutes < 0) {
-            message += "Invalid time entered for \"Time Falling Asleep\"\n";
-        } else if (isNaN(twhours) || isNaN(twminutes) || twhours < 0 || twminutes < 0) {
-            message += "Invalid time entered for \"Time Waking Up\"\n";
-        } else if (isNaN(tbhours) || isNaN(tbminutes) || tbhours < 0 || tbminutes < 0) {
-            message += "Invalid time entered for \"Time In Bed\"\n";
-        }
-        if (message !== "") {
-            window.alert(message);
-            return false;
-        } else {
-            if (window.confirm("Do you want to submit with the following information?\n")) {
-                return true;
+            if (date.length !== 10) {
+                message += "Invalid date submitted.\n" + date;
             } else {
+                var month = date.substr(5, 2);
+                var day = date.substr(8, 2);
+                var year = date.substr(0, 4);
+                if (isNaN(month) || isNaN(day) || isNaN(year)) {
+                    message += "Invalid date submitted.\n";
+                } else if (month > 12 || day > 31 || month < 0 || day < 0 || year < 0) {
+                    message += "Invalid date submitted.\n";
+                } else {
+                    // Some further checks are needed for specific months.
+                }
+            }
+            if (isNaN(tfhours) || isNaN(tfminutes) || tfhours < 0 || tfminutes < 0) {
+                message += "Invalid time entered for \"Time Falling Asleep\"\n";
+            } else if (isNaN(twhours) || isNaN(twminutes) || twhours < 0 || twminutes < 0) {
+                message += "Invalid time entered for \"Time Waking Up\"\n";
+            } else if (isNaN(tbhours) || isNaN(tbminutes) || tbhours < 0 || tbminutes < 0) {
+                message += "Invalid time entered for \"Time In Bed\"\n";
+            }
+            if (message !== "") {
+                window.alert(message);
                 return false;
+            } else {
+                if (window.confirm("Do you want to submit with the following information?\n")) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
     }

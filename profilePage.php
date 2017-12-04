@@ -307,8 +307,11 @@ BODY;
             }
         } else {
             $top = <<<BODY
-            <div class="container-fluid">
-                <h1>$profilename's profile.</h1><br>
+	    <div class="container-fluid bg-1">
+                <h1>Hey there!</h1><br>
+            </div>
+            <div class="container-fluid bg-3">
+                The last time $profilename updated was: $recentdate.<br><br>
             </div>
 BODY;
             $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";

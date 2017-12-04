@@ -103,14 +103,14 @@ BODY;
     $resources = <<<BODY
         <div class= "col">
             <h4>Additional Resources</h4>
-            <form action= "{$_SERVER['PHP_SELF']}" method="post">
-                What kinds of resources would you like to view?<br>
-                <select id="rsc">
-                    <option value="choose">Choose An Option</option>
-                    <option value="sleepingproblems">Sleeping Problems</option>
-                    <option value="notenoughsleep">Not Enough Sleep</option>
-			    </select>			
-            </form>
+            What kinds of resources would you like to view?<br>
+            <select id="rsc">
+                <option value="choose">Choose An Option</option>
+                <option value="sleepingproblems">Sleeping Problems</option>
+                <option value="notenoughsleep">Not Enough Sleep</option>
+            </select>
+            <br/>
+            <text id="rscinfo">
         </div></div>
 BODY;
 

@@ -215,6 +215,20 @@ if (isset($_POST['submit'])) {
  */
 $body = $topandleft . $right;
 generatePage($body, 'Profile Page','profileVerify.js');
+function calculateMinuteDifference($goal, $bedtime) {
+    $goalhours = 0;
+    $goalminutes = 0;
+    $g = null;
+    $bedhours = 0;
+    $bedminutes = 0;
+    sscanf($goal, "%d:%d %s", $goalhours, $goalminutes, $g);
+    if (g === "PM") {
+        $goalhours += 12;
+    }
+    sscanf($bedtime, "%d:%d", $bedhours, $bedminutes);
+    $difference = 60*($bedhours - $goalhours) + ($bedminutes - $goalminutes);
+    return $difference;
+}
 function convertDate($date)
 {
     $converted_date = "";

@@ -44,6 +44,10 @@ if(isset($_POST["create"])) {
         connectAndQuery($query);
         $query = "INSERT INTO groupid_groupname (groupid, groupname) values ('$groupId', '$groupName');";
         connectAndQuery($query);
+        $query = "INSERT INTO progress (email, percentage, type) values ('$email', '0', 'general');";
+        connectAndQuery($query);
+        $query = "INSERT INTO progress (email, percentage, type) values ('$email', '0', 'sleep');";
+        connectAndQuery($query);
 
         $_SESSION['email'] = $email;
         $_SESSION['groupId'] = $groupId;

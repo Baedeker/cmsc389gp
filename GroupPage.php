@@ -1,6 +1,6 @@
 <?php
     require_once 'support.php';
-
+echo "<link rel=\"stylesheet\" href=\"groupPage.css\">";
     session_start();
 
     if(!isset($_SESSION['email']))

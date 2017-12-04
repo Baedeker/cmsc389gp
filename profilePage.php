@@ -108,8 +108,7 @@ BODY;
                     <option value="choose">Choose An Option</option>
                     <option value="sleepingproblems">Sleeping Problems</option>
                     <option value="notenoughsleep">Not Enough Sleep</option>
-                </select>
-                <br/>
+                </select><br><br>
                 <text id="rscinfo">
             </div></div>
 BODY;

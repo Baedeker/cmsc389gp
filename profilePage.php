@@ -104,11 +104,14 @@ BODY;
             <div class= "col">
                 <h4>Additional Resources</h4>
                 What kinds of resources would you like to view?<br>
-                <select id="rsc">
+                <form action="resources.php" method="post">
+                <select id="rsc" name="resourceOption">
                     <option value="choose">Choose An Option</option>
                     <option value="sleepingproblems">Sleeping Problems</option>
                     <option value="notenoughsleep">Not Enough Sleep</option>
                 </select><br><br>
+                <input type="submit" name="displayResources" value="See Resources"/>
+                </form>
                 <text id="rscinfo">
             </div></div>
 BODY;
@@ -397,6 +400,15 @@ BODY;
     $body = $top . $left;
     return $body;
 }
+
+function getFiles(){
+    $query = "SELECT image FROM testblob WHERE image_name = file1.pdf";
+    $result = connectAndQuery($query);
+    $recordArray = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $image = $recordArray['image'];
+    echo '<img src="data:image/jpeg;base64,'.base64_encode( $image ).'"/>';
+}
+
 ?>
 
 <script>

@@ -101,17 +101,17 @@ if ($currentuseremail === $profileemail) { // If the person is viewing their own
         
 BODY;
     $resources = <<<BODY
-        <div class= "col">
-            <h4>Additional Resources</h4>
-            <form action= "{$_SERVER['PHP_SELF']}" method="post">
+            <div class= "col">
+                <h4>Additional Resources</h4>
                 What kinds of resources would you like to view?<br>
                 <select id="rsc">
                     <option value="choose">Choose An Option</option>
                     <option value="sleepingproblems">Sleeping Problems</option>
                     <option value="notenoughsleep">Not Enough Sleep</option>
-			    </select>			
-            </form>
-        </div></div>
+                </select>
+                <br/>
+                <text id="rscinfo">
+            </div></div>
 BODY;
     $right = $right . $resources;
 } else {

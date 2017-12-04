@@ -7,6 +7,8 @@ require_once 'support.php';
     $imgData = file_get_contents($filename);
     $size = getimagesize($filename);
 
+
+
     $query = "INSERT INTO testblob(image, image_name) "
         ."VALUES('$image','photo')"
         ."ON DUPLICATE KEY UPDATE "

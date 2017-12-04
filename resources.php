@@ -26,7 +26,7 @@ for($i = 1; $i < 3; $i++){
 }
 
 function downloadResource($filename){
-    $query = "SELECT image FROM testblob WHERE image_name = 'file1.pdf'";
+    $query = "SELECT image FROM testblob WHERE image_name = '$filename'";
     $result = connectAndQuery($query);
     list($content) = mysqli_fetch_array($result);
     header("Content-type: pdf");
@@ -34,18 +34,22 @@ function downloadResource($filename){
     echo $content;
 }
 
+if(isset($_POST['download'])){
+    echo $_POST['filename'];
+    $filename = $_POST['filename'];
+    downloadResource($filename);
+}
+
 if(isset($_POST['resourceOption'])) {
     $option = $_POST['resourceOption'];
     if ($option === "sleepingproblems") {
-        echo "sleeping problems";
-
-        $resourceButtons = "hello";
-//        for($i = 1; 1 < 4; $i++){
-        $i = 1;
-            $name = "file".$i.'.pdf';
-            $resourceButtons.="<button onclick=\"downloadResource($name)\">Download Resource $i</button>";
-//        $resourceButtons.="<button onclick=\"history.go(-1);\">Back</button>";
-//        }
+        $resourceButtons = "";
+        for($i = 1; $i < 4; $i++) {
+            $filename = "file" . $i . ".pdf";
+            $value = "Download Resource " . $i;
+            $resourceButtons .= "<form action=\"\" method='post'><input type='hidden' name='filename' value='$filename'/>
+                <input type='submit' name='download' value='$value'/></form>";
+        }
         echo $resourceButtons;
 
     } else if ($option === "notenoughsleep") {

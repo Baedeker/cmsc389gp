@@ -128,7 +128,7 @@ if (isset($_POST['submit'])) {
     $timewakeupminutes = $_POST['timewakeupminutes'];
     $timeinbedhours = $_POST['timeinbedhours'];
     $timeinbedminutes = $_POST['timeinbedminutes'];
-    
+
     if ($timefallasleephours < 10) {
         $timefallasleephours = "0" . $timefallasleephours;
     }
@@ -147,14 +147,13 @@ if (isset($_POST['submit'])) {
     if ($timeinbedminutes < 10) {
         $timeinbedminutes = "0" . $timeinbedminutes;
     }
-	
+
     $timefa = $timefallasleephours . ":" . $timefallasleepminutes;
     $timewu = $timewakeuphours . ":" . $timewakeupminutes;
     $timeib = $timeinbedhours . ":" . $timeinbedminutes;
     $sql = sprintf("INSERT INTO sleeplogs (id, email, date, timeinbed, timefallasleep, timewakeup, actualsleep) values ('%s', '%s', '%s', '%s', '%s', '%s', '%d')",
         NULL, $profileemail, $date, $timeib, $timefa, $timewu, $actualsleep);
     $result = connectAndQuery($sql);
-
     $query = "SELECT * FROM Progress WHERE email='$profileemail' && type='general'"; // pulling general percentage
     $result = connectAndQuery($query);
     $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -169,7 +168,6 @@ if (isset($_POST['submit'])) {
     $bedtimeGoal = $temp['bedtimeGoal'];
     $fallAsleepGoal = $temp['fallAsleepGoal'];
     $troubleAwakeGoal = $temp['troubleAwakeGoal'];
-
     $sleepprogressmod = 0;
     $diff = calculateMinuteDifference($bedtimeGoal, $timeib);
     if ($diff > 60) {
@@ -210,7 +208,6 @@ if (isset($_POST['submit'])) {
     $result = connectAndQuery($query);
     $query = "UPDATE Progress SET percentage = '$currentSleepPercent' WHERE email='$profileemail' && type='sleep'"; // pushing sleep percentage
     $result = connectAndQuery($query);
-
     $topandleft = generateTable($profilename, $profileemail, $currentuseremail, $left);
     unset($_POST['submit']);
 }
@@ -283,9 +280,7 @@ function convertDate($date)
     $converted_date .= ", ";
     $converted_date .= $year;
     return $converted_date;
-
 }
-
 function generateTable($profilename, $profileemail, $currentuseremail, $left)
 {
     $top = "";
@@ -293,10 +288,10 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
         "FROM sleeplogs " .
         "WHERE `email` = '$profileemail'";
     $recentdate = null;
-    $result = connectAndQuery($query);
-    if ($result) {
-        if (mysqli_num_rows($result)) {
-            while ($records = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $result45 = connectAndQuery($query);
+    if ($result45) {
+        if (mysqli_num_rows($result45)) {
+            while ($records = mysqli_fetch_array($result45, MYSQLI_ASSOC)) {
                 $recentdate = convertDate($records['date']);
                 $recentsleep = $records['actualsleep'];
                 $timewakeup = $records['timewakeup'];
@@ -312,11 +307,10 @@ function generateTable($profilename, $profileemail, $currentuseremail, $left)
                     </tr>
 BODY;
             }
-	    $query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
+            /*$query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
             $result = connectAndQuery($query);
             $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $stars = $temp['stars'];
-
             $metrics = "";
             for ($i = 0 ; $i < $stars; $i++) {
                 $metrics .= <<<BODY
@@ -359,11 +353,18 @@ BODY;
                     }
                 }
             }
-            $metrics .= "</div>";
-		
+            $metrics .= "</div>";*/
             $left .= "</tbody></table></div><br>";
-            if ($currentuseremail === $profileemail) {
-                $top = <<<BODY
+        } else {
+            $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
+        }
+    }
+    $metrics = getMetrics($profileemail);
+    if ($recentdate === null) {
+        $recentdate = "N/A, make a log today!";
+    }
+    if ($currentuseremail === $profileemail) {
+        $top = <<<BODY
                 <div class="container-fluid bg-1">
                 <h1>Hey there, $profilename!</h1><br>
                 <form action="GroupPage.php" method="post">
@@ -371,14 +372,14 @@ BODY;
                 </form><br>
                 </div><div class="container-fluid bg-1">
 BODY;
-		$topend = <<<BODY
+        $topend = <<<BODY
 		<div class="container-fluid bg-3">
                     The last time you updated was: $recentdate<br><br>
                 </div>
 BODY;
-		$top = $top . $metrics . $topend; 
-            } else {
-	    	$top = <<<BODY
+        $top = $top . $metrics . $topend;
+    } else {
+        $top = <<<BODY
                 <div class="container-fluid bg-1">
                 <h1>Hey there!</h1><br>
                 <form action="GroupPage.php" method="post">
@@ -386,21 +387,16 @@ BODY;
                 </form><br>
                 </div><div class="container-fluid bg-1">
 BODY;
-		$topend = <<<BODY
+        $topend = <<<BODY
 		<div class="container-fluid bg-3">
                     The last time $profilename updated was: $recentdate<br><br>
                 </div>
 BODY;
-		$top = $top . $metrics . $topend; 
-	    }
-        } else {
-            $left = "<div class=\"container-fluid\"><h2>No logs have been made!</h2></div>";
-        }
+        $top = $top . $metrics . $topend;
     }
     $body = $top . $left;
     return $body;
 }
-
 function getFiles(){
     $query = "SELECT image FROM testblob WHERE image_name = file1.pdf";
     $result = connectAndQuery($query);
@@ -408,7 +404,56 @@ function getFiles(){
     $image = $recordArray['image'];
     echo '<img src="data:image/jpeg;base64,'.base64_encode( $image ).'"/>';
 }
-
+function getMetrics($profileemail) {
+    $query = "SELECT * FROM users WHERE email='$profileemail'"; // pulling stars
+    $result = connectAndQuery($query);
+    $temp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $stars = $temp['stars'];
+    $metrics = "";
+    for ($i = 0 ; $i < $stars; $i++) {
+        $metrics .= <<<BODY
+                    <h2>&#9733;</h2>
+BODY;
+    }
+    $query = "SELECT percentage,type ".
+        "FROM progress ".
+        "WHERE email='$profileemail'";
+    $result3 = connectAndQuery($query);
+    if ($result3) {
+        while ($recordArray = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
+            $percentage = $recordArray['percentage'] * 100;
+            $type = $recordArray['type'];
+            if ($type == "general") {
+                $metrics .= <<<BODY
+                                  <h4>General</h4>
+                                  <div class="progress" style="width:80%">
+BODY;
+            } else {
+                $metrics .= <<<BODY
+                                <h4>Goal: Sleep</h4>
+                                    <div class="progress" style="width:80%">
+BODY;
+            }
+            if ($percentage <= 20) {
+                $metrics .= <<<BODY
+                                <div class="progress-bar bg-danger progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+            } else {
+                $metrics .= <<<BODY
+                                <div class="progress-bar bg-success progress-bar-striped"
+                                    style="width:$percentage%">$percentage%</div>
+                                </div>
+                                <br/>
+BODY;
+            }
+        }
+    }
+    $metrics .= "</div>";
+    return $metrics;
+}
 ?>
 
 <script>

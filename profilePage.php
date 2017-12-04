@@ -126,6 +126,26 @@ if (isset($_POST['submit'])) {
     $timewakeupminutes = $_POST['timewakeupminutes'];
     $timeinbedhours = $_POST['timeinbedhours'];
     $timeinbedminutes = $_POST['timeinbedminutes'];
+    
+    if ($timefallasleephours < 10) {
+        $timefallasleephours = "0" . $timefallasleephours;
+    }
+    if ($timefallasleepminutes < 10) {
+        $timefallasleepminutes = "0" . $timefallasleepminutes;
+    }
+    if ($timewakeuphours < 10) {
+        $timewakeuphours = "0" . $timewakeuphours;
+    }
+    if ($timewakeupminutes < 10) {
+        $timewakeupminutes = "0" . $timewakeupminutes;
+    }
+    if ($timeinbedhours < 10) {
+        $timeinbedhours = "0" . $timeinbedhours;
+    }
+    if ($timeinbedminutes < 10) {
+        $timeinbedminutes = "0" . $timeinbedminutes;
+    }
+	
     $timefa = $timefallasleephours . ":" . $timefallasleepminutes;
     $timewu = $timewakeuphours . ":" . $timewakeupminutes;
     $timeib = $timeinbedhours . ":" . $timeinbedminutes;
